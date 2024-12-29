@@ -111,6 +111,7 @@
                                                 </button>
                                                 <div class="p-4 md:p-5 text-center">
                                                     <form action="{{ route('guru.siswa.lulus') }}" method="post">
+                                                        @csrf
                                                         <input value="{{ $siswa->id }}" type="number" name="id_siswa" hidden>
                                                         <input value="{{ $guru->mapel->id }}" type="number" name="id_mapel" hidden>
                                                         <input value="{{ $siswa->semester_sekarang }}" type="number" name="semester" hidden>
