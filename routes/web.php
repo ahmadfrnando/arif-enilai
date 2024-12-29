@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KepalaSekolahController;
 use App\Http\Controllers\SiswaController;
+use App\Models\DataSekolah;
+use App\Models\Gallery;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +20,8 @@ use App\Http\Controllers\SiswaController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::post('/kirim', [GuestController::class, 'contact'])->name('kirim.pesan');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
