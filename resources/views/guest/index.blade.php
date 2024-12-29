@@ -37,7 +37,7 @@
                 <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Data Sekolah:</h2>
                 <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                     <li>
-                        <strong>Kepsek:</strong> {{ $data->nama_kepsek }}
+                        <strong>Kepsek:</strong> {{ $data->nama_kepsek ?? '-' }}
                     </li>
                     <li>
                         <strong>Operator:</strong> {{ $data->nama_operator }}
