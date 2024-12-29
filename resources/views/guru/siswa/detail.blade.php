@@ -117,6 +117,7 @@
                                                         <input value="{{ $siswa->semester_sekarang }}" type="number" name="semester" hidden>
                                                         <input value="{{ Auth::user()->id_guru }}" type="number" name="id_guru" hidden>
                                                         <input value="2" type="number" name="id_status" hidden>
+                                                        <input value="{{ $siswa->id_kelas_sekarang }}" type="number" name="id_kelas_sekarang" hidden>
                                                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alasan:</label>
                                                         <textarea id="message" name="alasan" rows="4" class="block mb-4 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                                                         <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
