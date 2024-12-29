@@ -40,13 +40,13 @@
                         <strong>Kepsek:</strong> {{ $data->nama_kepsek ?? '-' }}
                     </li>
                     <li>
-                        <strong>Operator:</strong> {{ $data->nama_operator }}
+                        <strong>Operator:</strong> {{ $data->nama_operator ?? '-'}}
                     </li>
                     <li>
-                        <strong>Akreditasi:</strong> {{ $data->akreditasi }}
+                        <strong>Akreditasi:</strong> {{ $data->akreditasi ?? '-' }}
                     </li>
                     <li>
-                        <strong>Kurikulum:</strong> {{ $data->kurikulum }}
+                        <strong>Kurikulum:</strong> {{ $data->kurikulum ?? '-' }}
                     </li>
                     <li>
                         <strong>Waktu:</strong> {{ $data->waktu ?? '-' }}
@@ -63,23 +63,23 @@
                 <!-- Identitas Sekolah -->
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <h3 class="text-lg font-bold mb-2">Identitas Sekolah</h3>
-                    <p><strong>NPSN:</strong> {{ $data->npsn }}</p>
-                    <p><strong>Status:</strong> {{ $data->status }}</p>
-                    <p><strong>Bentuk Pendidikan:</strong> {{ $data->bentuk_pendidikan }}</p>
-                    <p><strong>Status Kepemilikan:</strong> {{ $data->status_kepemilikan }}</p>
-                    <p><strong>SK Pendirian Sekolah:</strong> {{ $data->sk_pendirian_sekolah }}</p>
-                    <p><strong>Tanggal SK Pendirian:</strong> {{ $data->tanggal_sk_pendirian_sekolah }}</p>
-                    <p><strong>SK Izin Operasional:</strong> {{ $data->sk_izin_operasional }}</p>
-                    <p><strong>Tanggal SK Izin Operasional:</strong> {{ $data->tanggal_sk_izin_operasional }}</p>
+                    <p><strong>NPSN:</strong> {{ $data->npsn ?? '-' }}</p>
+                    <p><strong>Status:</strong> {{ $data->status ?? '-' }}</p>
+                    <p><strong>Bentuk Pendidikan:</strong> {{ $data->bentuk_pendidikan ?? '-' }}</p>
+                    <p><strong>Status Kepemilikan:</strong> {{ $data->status_kepemilikan ?? '-' }}</p>
+                    <p><strong>SK Pendirian Sekolah:</strong> {{ $data->sk_pendirian_sekolah ?? '-' }}</p>
+                    <p><strong>Tanggal SK Pendirian:</strong> {{ $data->tanggal_sk_pendirian_sekolah ?? '-' }}</p>
+                    <p><strong>SK Izin Operasional:</strong> {{ $data->sk_izin_operasional ?? '-' }}</p>
+                    <p><strong>Tanggal SK Izin Operasional:</strong> {{ $data->tanggal_sk_izin_operasional ?? '-' }}</p>
                 </div>
 
                 <!-- Data Pelengkap -->
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <h3 class="text-lg font-bold mb-2">Data Pelengkap</h3>
-                    <p><strong>Kebutuhan Khusus Dilayani:</strong> {{ $data->kebutuhan_khusus }}</p>
-                    <p><strong>Nama Bank:</strong>{{ $data->nama_bank }}</p>
-                    <p><strong>Cabang KCP/Unit:</strong> {{ $data->cabang_bank }}</p>
-                    <p><strong>Rekening Atas Nama:</strong> {{ $data->nama_rekening }}</p>
+                    <p><strong>Kebutuhan Khusus Dilayani:</strong> {{ $data->kebutuhan_khusus ?? '-' }}</p>
+                    <p><strong>Nama Bank:</strong>{{ $data->nama_bank ?? '-' }}</p>
+                    <p><strong>Cabang KCP/Unit:</strong> {{ $data->cabang_bank ?? '-' }}</p>
+                    <p><strong>Rekening Atas Nama:</strong> {{ $data->nama_rekening ?? '-' }}</p>
                 </div>
 
                 <!-- Data Rinci -->
