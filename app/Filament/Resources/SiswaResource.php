@@ -17,6 +17,7 @@ use Filament\Infolists\Infolist;
 use Filament\Forms\Components\FileUpload;
 use Livewire\TemporaryUploadedFile;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Tables\Filters\SelectFilter;
 
 class SiswaResource extends Resource
 {
@@ -24,7 +25,7 @@ class SiswaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationLabel = 'Data Siswa';
-    
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -34,6 +35,9 @@ class SiswaResource extends Resource
                     Forms\Components\TextInput::make('nama_siswa')
                         ->required()
                         ->maxLength(20),
+                    Forms\Components\TextInput::make('email')
+                        ->email()
+                        ->required(),
                     Forms\Components\TextInput::make('nisn')
                         ->required()
                         ->maxLength(20),
@@ -164,16 +168,41 @@ class SiswaResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nisn')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('jenis_kelamin'),
-                Tables\Columns\TextColumn::make('asal_sekolah')
+                Tables\Columns\TextColumn::make('kelas.nama_kelas')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('pas_foto')
+                Tables\Columns\TextColumn::make('semester_sekarang')->label('Semester')
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('id_kelas_sekarang')->label('Pilih Kelas')
+                    ->options(RefKelas::all()->pluck('nama_kelas', 'id')),
+                SelectFilter::make('semester_sekarang')->label('Pilih Semester')
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                    ])
             ])
             ->actions([
+                Tables\Actions\Action::make('Update Kelas')
+                    ->icon('heroicon-s-pencil')
+                    ->color('secondary')
+                    ->button()
+                    ->action(function (Siswa $record, array $data): void {
+                        $record->id_kelas_sekarang = $data['id_kelas_sekarang'];
+                        $record->semester_sekarang = $data['semester_sekarang'];
+                        $record->save();
+                    })
+                    ->form([
+                        Forms\Components\Select::make('id_kelas_sekarang')
+                            ->label('Pilih Kelas')
+                            ->options(RefKelas::all()->pluck('nama_kelas', 'id'))
+                            ->required(),
+                        Forms\Components\Select::make('semester_sekarang')->label('Pilih Semester')
+                            ->options([
+                                '1' => '1',
+                                '2' => '2',
+                            ])
+                    ]),
                 Tables\Actions\EditAction::make()->button(),
                 Tables\Actions\ViewAction::make()->button(),
                 Tables\Actions\DeleteAction::make()->button(),
@@ -182,14 +211,14 @@ class SiswaResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -197,5 +226,5 @@ class SiswaResource extends Resource
             'create' => Pages\CreateSiswa::route('/create'),
             'edit' => Pages\EditSiswa::route('/{record}/edit'),
         ];
-    }    
+    }
 }

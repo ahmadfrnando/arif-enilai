@@ -33,6 +33,9 @@ class GuruResource extends Resource
                         Forms\Components\TextInput::make('nama_guru')
                             ->required()
                             ->maxLength(20),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required(),
                         Forms\Components\Select::make('jenis_kelamin')
                             ->options([
                                 'Laki-laki' => 'Laki-laki',
@@ -103,8 +106,6 @@ class GuruResource extends Resource
                 Tables\Columns\TextColumn::make('jabatan')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('mapel.nama_mapel')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('pas_foto')
                     ->searchable(),
             ])
             ->filters([

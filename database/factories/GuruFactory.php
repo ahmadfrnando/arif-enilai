@@ -21,6 +21,7 @@ class GuruFactory extends Factory
         return [
             'nip' => $nip,
             'nama_guru' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'jenis_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'tempat_lahir' => $this->faker->city(),
             'tanggal_lahir' => $this->faker->date('Y-m-d', '1980-01-01'),
@@ -33,7 +34,6 @@ class GuruFactory extends Factory
             'id_mapel' => $this->faker->numberBetween(1, 14),
             'penataran_yang_pernah_diikutin' => $this->faker->optional()->sentence(),
             'keterangan' => $this->faker->optional()->sentence(),
-            'pas_foto' => $this->faker->imageUrl(400, 400, 'people', true), // optional photo URL
             'created_at' => now(),
             'updated_at' => now(),
         ];
