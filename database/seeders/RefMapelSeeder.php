@@ -16,7 +16,7 @@ class RefMapelSeeder extends Seeder
      */
     public function run(): void
     {
-        $mapels = [
+        $mapel = [
             'AGAMA',
             'PKN',
             'B.INDO',
@@ -31,6 +31,27 @@ class RefMapelSeeder extends Seeder
             'KIMIA',
             'BIOLOGI',
             'SOSIOLOGI',
+        ];
+
+        $mapel_lengkap = [
+            'Pendidikan Agama dan Budi Pekerti',
+            'Pendidikan Pancasila dan Kewarganegaraan',
+            'Bahasa Indonesia',
+            'Matematika',
+            'Sejarah Indonesia',
+            'Bahasa Inggris',
+            'Seni Budaya',
+            'Pendidikan Jasmani, olahraga, dan kesehatan',
+            'Prakarya dan Kewirausahaan',
+            'Matematika',
+            'Fisika',
+            'Kimia',
+            'Biologi',
+            'Sosiologi',
+        ];
+
+        $id = [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
         ];
 
         $kkm = [
@@ -50,14 +71,16 @@ class RefMapelSeeder extends Seeder
             82,
         ];
 
-        $data = array_map(function ($mapel, $kkm) {
+        $data = array_map(function ($mapel, $kkm, $id, $mapel_lengkap) {
             return [
+                'id' => $id,
                 'nama_mapel' => $mapel,
+                'nama_mapel_lengkap' => $mapel_lengkap,
+                'kkm' => $kkm,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                'kkm' => $kkm,
             ];
-        }, $mapels);
+        }, $mapel, $kkm, $id, $mapel_lengkap);
 
         RefMapel::insert($data);
     }

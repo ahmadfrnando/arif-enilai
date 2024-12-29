@@ -20,7 +20,7 @@ class WaliKelasResource extends Resource
     protected static ?string $model = WaliKelas::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationLabel = 'Data Wali Siswa';
+    protected static ?string $navigationLabel = 'Data Wali Kelas';
 
     public static function form(Form $form): Form
     {
@@ -45,7 +45,7 @@ class WaliKelasResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('No')->rowIndex(),
                 Tables\Columns\TextColumn::make('guru.nama_guru'),
-                Tables\Columns\TextColumn::make('refKelas.nama_kelas')->label('Kelas'),
+                Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas'),
             ])
             ->filters([
                 //

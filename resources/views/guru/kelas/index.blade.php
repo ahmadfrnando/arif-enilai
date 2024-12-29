@@ -1,26 +1,27 @@
 @extends('guru.layouts.master')
 
 @section('content')
-<div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-    <div class="relative p-4 overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full striped text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<div class="p-6 mt-14 space-y-4">
+    <h1 class="text-3xl font-bold text-gray-900">Daftar Kelas</h1>
+    <div class="relative border border-gray-400 overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full striped text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-xs text-gray-700 border-b uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         No
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th class="px-6 py-3">
                         Nama Kelas
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th class="px-6 py-3">
                         Jumlah Siswa
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($kelas as $k)
-                <tr class="odd:bg-white even:bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <tr class="odd:bg-white even:bg-gray-50 border-b hover:bg-gray-50">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         {{ $loop->iteration }}
                     </th>
                     <td class="px-6 py-4">
@@ -32,11 +33,16 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr class="font-semibold text-gray-900 dark:text-white">
+                    <th scope="row" colspan="2" class="px-6 py-3 text-base">Total Siswa</th>
+                    <td class="px-6 py-3">{{ $siswa }}</td>
+                </tr>
+            </tfoot>
         </table>
         <data value="
         "
-        xx
-        ></data>
+            xx></data>
     </div>
 </div>
 @endsection

@@ -18,7 +18,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -32,8 +32,8 @@ class AuthController extends Controller
                     return redirect()->route('guru.dashboard');
                 case 'siswa':
                     return redirect()->route('siswa.dashboard');
-                case 'kepala_sekolah':
-                    return redirect()->route('kepala_sekolah.dashboard');
+                case 'kepsek':
+                    return redirect()->route('kepsek.dashboard');
                 default:
                     Auth::logout();
                     return redirect()->route('login')->withErrors(['email' => 'Role not recognized.']);

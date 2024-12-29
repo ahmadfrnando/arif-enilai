@@ -22,14 +22,21 @@ class RefKelasSeeder extends Seeder
             'XII IPA 1', 'XII IPA 2', 'XII IPS 1', 'XII IPS 2',
         ];
 
-        $data = array_map(function ($kelasName) {
+        $id = [
+            1, 2, 3, 4,
+            5, 6, 7, 8,
+            9, 10, 11, 12
+        ];
+
+        $data = array_map(function ($kelasName, $id) {
             return [
+                'id' => $id,
                 'nama_kelas' => $kelasName,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
                 'jumlah_siswa' => 0
             ];
-        }, $kelas);
+        }, $kelas, $id);
 
         RefKelas::insert($data);
     }
