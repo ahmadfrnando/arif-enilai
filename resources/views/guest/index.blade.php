@@ -107,11 +107,11 @@
         <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Fasilitas Sekolah</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-gray-50 p-6 rounded-lg text-center">
-                <h3 class="text-xl font-semibold text-gray-700">Laboratorium Modern</h3>
+                <h3 class="text-xl font-semibold text-gray-700">Laboratorium</h3>
                 <p class="text-gray-600 mt-4">Mendukung pembelajaran sains dan teknologi dengan peralatan terkini.</p>
             </div>
             <div class="bg-gray-50 p-6 rounded-lg text-center">
-                <h3 class="text-xl font-semibold text-gray-700">Perpustakaan Digital</h3>
+                <h3 class="text-xl font-semibold text-gray-700">Perpustakaan</h3>
                 <p class="text-gray-600 mt-4">Ribuan koleksi buku untuk menunjang kegiatan belajar siswa.</p>
             </div>
             <div class="bg-gray-50 p-6 rounded-lg text-center">
