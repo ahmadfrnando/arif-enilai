@@ -14,7 +14,7 @@
     </div>
 </section>
 
-<section id="tentang" class="bg-gray-100 py-16">
+<section id="about" class="bg-gray-100 py-16">
     <div class="px-4 mx-auto max-w-screen-xl text-center">
         <h2 class="text-3xl font-bold text-gray-800 mb-8">Tentang Kami</h2>
         <p class="text-lg text-gray-600 leading-relaxed">
@@ -25,7 +25,7 @@
     </div>
 </section>
 
-<section id="datasekolah" class="p-6 bg-gray-100">
+<section class="p-6 bg-gray-100">
     <div class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Sidebar -->
         <div class="bg-white p-4 rounded-lg shadow">
@@ -135,7 +135,7 @@
 </section>
 
 <!-- Kontak -->
-<section class="bg-blue-700 text-white py-16">
+<section id="contact" class="bg-blue-700 text-white py-16">
     <div class="px-4 mx-auto max-w-screen-xl">
         <h2 class="text-3xl font-bold text-center mb-8">Hubungi Kami</h2>
         <div class="flex flex-col md:flex-row justify-between items-center">

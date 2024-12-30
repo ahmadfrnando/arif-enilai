@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -21,7 +21,7 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <nav class="bg-blue-900 border-gray-200">
+    <nav class="bg-blue-900 border-gray-200 fixed w-full z-20 top-0 start-0">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="{{ asset('logo.svg') }}" class="h-8" alt="Logo Sekolah" />
@@ -39,19 +39,16 @@
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                     <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-blue-300 bg-blue-700 rounded md:bg-transparent" aria-current="page">Beranda</a>
+                        <a href="/" class="block py-2 px-3 md:p-0 text-blue-300 bg-blue-700 rounded md:bg-transparent" aria-current="page">Beranda</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Tentang Kami</a>
+                        <a href="#about" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Tentang Kami</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Gallery</a>
+                        <a href="#gallery" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Gallery</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Data Sekolah</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Hubungi Kami</a>
+                        <a href="#contact" class="block py-2 px-3 md:p-0 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700">Hubungi Kami</a>
                     </li>
                 </ul>
             </div>
