@@ -70,7 +70,7 @@ class SiswaResource extends Resource
                         ->required()
                         ->maxLength(100),
                     Forms\Components\TextInput::make('telepon_siswa')
-                        ->tel()
+                        ->numeric()
                         ->required(),
                 ])->columns(2),
             Section::make('Kelas Pertama')
@@ -128,7 +128,7 @@ class SiswaResource extends Resource
                         ->required()
                         ->maxLength(50),
                     Forms\Components\TextInput::make('telepon_ortu')
-                        ->tel()
+                        ->numeric()
                         ->required()
                         ->maxLength(50),
                     Forms\Components\TextInput::make('nama_wali')
@@ -142,7 +142,7 @@ class SiswaResource extends Resource
                         ->maxLength(50),
                     Forms\Components\TextInput::make('telepon_wali')
                         ->label('Telepon Wali (opsional)')
-                        ->tel(),
+                        ->numeric(),
                 ])->columns(2),
             FileUpload::make('pas_foto')
                 ->label('Upload Pas Foto (maks. 1MB)')
