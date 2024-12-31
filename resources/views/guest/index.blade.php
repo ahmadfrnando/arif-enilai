@@ -100,7 +100,7 @@
 
 <!-- Tentang Kami -->
 
-
+   
 <!-- Fasilitas Sekolah -->
 <section class="bg-white py-16">
     <div class="px-4 mx-auto max-w-screen-xl">
