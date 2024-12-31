@@ -87,7 +87,6 @@ class GuruResource extends Resource
                             ->label('Upload Pas Foto (maks. 1MB)')
                             ->image()
                             ->directory('Pas-Foto-Guru')
-                            ->required()
                             ->maxSize(1024)
                             ->getUploadedFileNameForStorageUsing(
                                 fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())

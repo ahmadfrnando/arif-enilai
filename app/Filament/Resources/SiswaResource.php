@@ -148,7 +148,6 @@ class SiswaResource extends Resource
                 ->label('Upload Pas Foto (maks. 1MB)')
                 ->directory('Pas-Foto-Siswa')
                 ->image()
-                ->required()
                 ->maxSize(1024)
                 ->getUploadedFileNameForStorageUsing(
                     fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())

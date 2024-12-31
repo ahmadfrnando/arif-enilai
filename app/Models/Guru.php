@@ -39,6 +39,13 @@ class Guru extends Model
                 ]);
             }
         });
+
+        static::deleted(function ($guru) {
+            $user = User::where('id_guru', $guru->id)->first();
+            if ($user) {
+                $user->delete();
+            }
+        });
     }
 
     public function mapel()

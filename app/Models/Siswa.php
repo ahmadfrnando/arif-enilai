@@ -30,12 +30,12 @@ class Siswa extends Model
                 'password' => Hash::make('123'), // Password default
             ]);
 
-            $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
-            RefKelas::updateOrCreate([
-                'id' => $siswa->id_kelas_sekarang,
-            ], [
-                'jumlah_siswa' => $jumlahSiswa + 1
-            ]);
+            // $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
+            // RefKelas::updateOrCreate([
+            //     'id' => $siswa->id_kelas_sekarang,
+            // ], [
+            //     'jumlah_siswa' => $jumlahSiswa + 1
+            // ]);
         });
 
         static::updated(function ($siswa) {
@@ -46,6 +46,26 @@ class Siswa extends Model
                     'email' => $siswa->email,
                 ]);
             }
+
+            $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
+            RefKelas::updateOrCreate([
+                'id' => $siswa->id_kelas_sekarang,
+            ], [
+                'jumlah_siswa' => $jumlahSiswa + 1
+            ]);
+        });
+
+        static::deleted(function ($siswa) {
+            $user = User::where('id_siswa', $siswa->id)->first();
+            if ($user) {
+                $user->delete();
+            }
+            $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
+            RefKelas::updateOrCreate([
+                'id' => $siswa->id_kelas_sekarang,
+            ], [
+                'jumlah_siswa' => $jumlahSiswa - 1
+            ]);
         });
     }
 
