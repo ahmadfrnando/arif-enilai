@@ -16,7 +16,14 @@
             </li>
         </ul>
     </div>
+
     <div id="default-tab-content">
+        <div class="px-4 w-auto">
+            <a href="{{ route('siswa.download') }}" class="focus:outline-none flex justify-center gap-1 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"><svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01" />
+                </svg>
+                Unduh Laporan Nilai Akademik</a>
+        </div>
         <!-- Tab Kelas 1 -->
         <div class="hidden p-4 rounded-lg" id="kelas1" role="tabpanel" aria-labelledby="kelas-1">
             @if($data['kelas1']->isNotEmpty())

@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::post('/siswa/nilai', [SiswaController::class, 'nilai']);
 
     Route::get('/siswa/report', [SiswaController::class, 'report'])->name('siswa.report');
+    Route::get('/siswa/download', [SiswaController::class, 'download'])->name('siswa.download');
 
     Route::get('/siswa/profile', [SiswaController::class, 'profile'])->name('siswa.profile');
     Route::post('/siswa/profile/update', [SiswaController::class, 'profileUpdate'])->name('siswa.profile-update');

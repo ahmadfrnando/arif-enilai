@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Exports\ReportAkademikExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
@@ -160,6 +162,15 @@ class SiswaController extends Controller
         // dd($reportSiswa->nama_siswa);
 
         return view('siswa.report.index', compact('data'));
+    }
+
+    public function download()
+    {   
+        $id = Auth::user()->id_siswa;
+        $student = ReportAkademikSiswa::where('id_siswa', $id)->firstOrFail();
+        $grades = is_array($student->nilai) ? $student->nilai : json_decode($student->nilai, true);
+
+        return Excel::download(new ReportAkademikExport($student, $grades), 'LaporanNilaiSiswa.xlsx');
     }
 
     /**
