@@ -12,38 +12,6 @@ class NilaiPengetahuan extends Model
     protected $table = 'nilai_pengetahuan';
     protected $guarded = [];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Event created: dijalankan setelah data siswa ditambahkan
-        static::creating(function ($nilaiPengetahuan) {
-            $mapel = RefMapel::where('id', $nilaiPengetahuan->id_mapel)->first();
-            if ($mapel->kkm == 78) {
-                if ($nilaiPengetahuan->nilai_pengetahuan < 78) {
-                    $nilaiPengetahuan->predikat = 'D';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 78 && $nilaiPengetahuan->nilai_pengetahuan <= 79) {
-                    $nilaiPengetahuan->predikat = 'C';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 80 && $nilaiPengetahuan->nilai_pengetahuan <= 89) {
-                    $nilaiPengetahuan->predikat = 'B';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 90 && $nilaiPengetahuan->nilai_pengetahuan <= 100) {
-                    $nilaiPengetahuan->predikat = 'A';
-                }
-            } elseif ($mapel->kkm == 82) {
-                if ($nilaiPengetahuan->nilai_pengetahuan < 82) {
-                    $nilaiPengetahuan->predikat = 'D';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 82 && $nilaiPengetahuan->nilai_pengetahuan <= 83) {
-                    $nilaiPengetahuan->predikat = 'C';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 84 && $nilaiPengetahuan->nilai_pengetahuan <= 89) {
-                    $nilaiPengetahuan->predikat = 'B';
-                } elseif ($nilaiPengetahuan->nilai_pengetahuan >= 90 && $nilaiPengetahuan->nilai_pengetahuan <= 100) {
-                    $nilaiPengetahuan->predikat = 'A';
-                }
-            }
-            $nilaiPengetahuan->save();
-        });
-    }
-
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'id_guru', 'id');
