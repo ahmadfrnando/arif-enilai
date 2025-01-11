@@ -27,4 +27,8 @@ class SiswaLulusMapel extends Model
     {
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id');
     }
+    public function kelas()
+    {
+        return $this->belongsTo(RefKelas::class, 'id_kelas', 'id');
+    }
 }

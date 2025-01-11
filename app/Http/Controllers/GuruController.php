@@ -117,8 +117,7 @@ class GuruController extends Controller
                 $pesan = $alasan;
             }
 
-            if($request->has('pesan'))
-            {
+            if ($request->has('pesan')) {
                 $request->validate(['pesan' => 'required']);
                 $pesan = $request->pesan;
             }
@@ -211,6 +210,7 @@ class GuruController extends Controller
         $cekSiswaLulus = SiswaLulusMapel::where('id_siswa', $siswa->id)
             ->where('id_kelas', $siswa->id_kelas_sekarang)
             ->where('semester', $siswa->semester_sekarang)
+            ->where('id_guru', Auth::user()->id_guru)
             ->first();
         $nilaiKeterampilan = NilaiKeterampilan::where('id_siswa', $siswaId)->first();
         $nilaiPengetahuan = NilaiPengetahuan::where('id_siswa', $siswaId)->first();
@@ -317,34 +317,15 @@ class GuruController extends Controller
                 'semester_sekarang' => 'required',
                 'nilai_pengetahuan' => 'required|integer|min:0|max:100'
             ]);
-            
+
             if ($validator->fails()) {
                 return redirect()->back()->with('error', 'Masukkan data nilai dari 0 sampai 100');
             }
 
             $predikat = '';
-            $mapel = RefMapel::where('id', $request->id_mapel)->first();
-            if ($mapel->kkm == 78) {
-                if ($request->nilai_pengetahuan < 78) {
-                    $predikat = 'D';
-                } elseif ($request->nilai_pengetahuan >= 78 && $request->nilai_pengetahuan <= 79) {
-                    $predikat = 'C';
-                } elseif ($request->nilai_pengetahuan >= 80 && $request->nilai_pengetahuan <= 89) {
-                    $predikat = 'B';
-                } elseif ($request->nilai_pengetahuan >= 90 && $request->nilai_pengetahuan <= 100) {
-                    $predikat = 'A';
-                }
-            } elseif ($mapel->kkm == 82) {
-                if ($request->nilai_pengetahuan < 82) {
-                    $predikat = 'D';
-                } elseif ($request->nilai_pengetahuan >= 82 && $request->nilai_pengetahuan <= 83) {
-                    $predikat = 'C';
-                } elseif ($request->nilai_pengetahuan >= 84 && $request->nilai_pengetahuan <= 89) {
-                    $predikat = 'B';
-                } elseif ($request->nilai_pengetahuan >= 90 && $request->nilai_pengetahuan <= 100) {
-                    $predikat = 'A';
-                }
-            }
+            $mapel = RefMapel::findOrFail($request->id_mapel);
+
+            $predikat = NilaiKeterampilan::calculatePredikat($mapel->kkm, $request->nilai_pengetahuann);
 
             NilaiPengetahuan::create([
                 'id_siswa' => $request->id_siswa,
@@ -435,34 +416,15 @@ class GuruController extends Controller
                 'semester_sekarang' => 'required',
                 'nilai_keterampilan' => 'required|integer|min:0|max:100'
             ]);
-            
+
             if ($validator->fails()) {
                 return redirect()->back()->with('error', 'Masukkan data nilai dari 0 sampai 100');
             }
 
             $predikat = '';
-            $mapel = RefMapel::where('id', $request->id_mapel)->first();
-            if ($mapel->kkm == 78) {
-                if ($request->nilai_keterampilan < 78) {
-                    $predikat = 'D';
-                } elseif ($request->nilai_keterampilan >= 78 && $request->nilai_keterampilan <= 79) {
-                    $predikat = 'C';
-                } elseif ($request->nilai_keterampilan >= 80 && $request->nilai_keterampilan <= 89) {
-                    $predikat = 'B';
-                } elseif ($request->nilai_keterampilan >= 90 && $request->nilai_keterampilan <= 100) {
-                    $predikat = 'A';
-                }
-            } elseif ($mapel->kkm == 82) {
-                if ($request->nilai_keterampilan < 82) {
-                    $predikat = 'D';
-                } elseif ($request->nilai_keterampilan >= 82 && $request->nilai_keterampilan <= 83) {
-                    $predikat = 'C';
-                } elseif ($request->nilai_keterampilan >= 84 && $request->nilai_keterampilan <= 89) {
-                    $predikat = 'B';
-                } elseif ($request->nilai_keterampilan >= 90 && $request->nilai_keterampilan <= 100) {
-                    $predikat = 'A';
-                }
-            }
+            $mapel = RefMapel::findOrFail($request->id_mapel);
+
+            $predikat = NilaiKeterampilan::calculatePredikat($mapel->kkm, $request->nilai_keterampilan);
 
             NilaiKeterampilan::create([
                 'id_siswa' => $request->id_siswa,
