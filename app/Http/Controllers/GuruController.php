@@ -212,10 +212,16 @@ class GuruController extends Controller
             ->where('semester', $siswa->semester_sekarang)
             ->where('id_guru', Auth::user()->id_guru)
             ->first();
-        $nilaiKeterampilan = NilaiKeterampilan::where('id_siswa', $siswaId)->first();
-        $nilaiPengetahuan = NilaiPengetahuan::where('id_siswa', $siswaId)->first();
         $guru = Guru::find(Auth::user()->id_guru);
         $kelas = RefKelas::all();
+        $nilaiKeterampilan = NilaiKeterampilan::where('id_siswa', $siswaId)
+            ->where('id_guru', Auth::user()->id_guru)
+            ->where('id_kelas', $siswa->id_kelas_sekarang)
+            ->first();
+        $nilaiPengetahuan = NilaiPengetahuan::where('id_siswa', $siswaId)
+            ->where('id_guru', Auth::user()->id_guru)
+            ->where('id_kelas', $siswa->id_kelas_sekarang)
+            ->first();
         return view('guru.siswa.detail', compact('siswa', 'kelas', 'nilaiKeterampilan', 'nilaiPengetahuan', 'guru', 'cekSiswaLulus'));
     }
 
