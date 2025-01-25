@@ -53,16 +53,16 @@
                 </tr>
             </thead>
             <tbody id="table-body">
-                @foreach($siswa as $key => $s)
+                @foreach($nilaiSiswa as $key => $s)
                 <tr class="odd:bg-white even:bg-gray-50 border-b hover:bg-gray-50">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {{ $siswa->firstItem() + $key }}
+                        {{ $nilaiSiswa->firstItem() + $key }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $s->nama_siswa }}
+                        {{ $s->siswa->nama_siswa }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $s->nisn}}
+                        {{ $s->siswa->nisn}}
                     </td>
                     <td class="px-6 py-4">
                         {!! $s->kelas->nama_kelas ?? '-' !!}
@@ -75,7 +75,7 @@
             </tbody>
         </table>
         <div class="p-4">
-            {{ $siswa->links() }}
+            {{ $nilaiSiswa->links() }}
         </div>
     </div>
 </div>

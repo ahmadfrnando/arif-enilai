@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Nilai;
 use App\Models\NilaiKeterampilan;
 use App\Models\NilaiPengetahuan;
+use App\Models\NilaiSiswa;
 use App\Models\RefKelas;
 use App\Models\RefMapel;
 use App\Models\RefTahunAjaran;
@@ -42,12 +43,16 @@ class GuruController extends Controller
     public function dashboard()
     {
         $guru = Guru::where('id', Auth::user()->id_guru)->first();
-        $nilaiPengetahuan = NilaiPengetahuan::where('id_guru', Auth::user()->id_guru)->count();
-        $nilaiKeterampilan = NilaiKeterampilan::where('id_guru', Auth::user()->id_guru)->count();
+        $nilaiPengetahuan = NilaiSiswa::where('id_guru', Auth::user()->id_guru)
+            ->whereNotNull('nilai_pengetahuan')
+            ->count();
+        $nilaiKeterampilan = NilaiSiswa::where('id_guru', Auth::user()->id_guru)
+            ->whereNotNull('nilai_keterampilan')
+            ->count();
         $kelas = RefKelas::all()->count();
         $siswa = Siswa::all()->count();
-        $belumNilaiPengetahuan = Siswa::doesntHave('nilaiPengetahuan')->count();
-        $belumNilaiKeterampilan = Siswa::doesntHave('nilaiKeterampilan')->count();
+        $belumNilaiPengetahuan = 0;
+        $belumNilaiKeterampilan = 0;
 
         return view('guru.dashboard', compact('nilaiPengetahuan', 'nilaiKeterampilan', 'kelas', 'siswa', 'guru', 'belumNilaiPengetahuan', 'belumNilaiKeterampilan'));
     }
@@ -70,6 +75,7 @@ class GuruController extends Controller
         $siswa = Siswa::findOrFail($id_siswa);
 
         $siswaLulusMapel = SiswaLulusMapel::with([
+            'mapel',
             'mapel.nilaiPengetahuan',
             'mapel.nilaiKeterampilan'
         ])->where('id_siswa', $id_siswa)->get();
@@ -203,44 +209,40 @@ class GuruController extends Controller
         return redirect()->route('guru.profile')->with('success', 'Data Guru Berhasil Diupdate');
     }
 
-    public function detailSiswa(Request $request)
+    public function detailSiswa(Request $request) //8
     {
-        $siswaId = $request->id;
-        $siswa = Siswa::find($siswaId);
-        $cekSiswaLulus = SiswaLulusMapel::where('id_siswa', $siswa->id)
-            ->where('id_kelas', $siswa->id_kelas_sekarang)
-            ->where('semester', $siswa->semester_sekarang)
-            ->where('id_guru', Auth::user()->id_guru)
-            ->first();
+        // $siswaId = Siswa::where('id', $request->id)->first();
+        // $siswa = Siswa::find($siswaId);
+        $nilaiSiswa = NilaiSiswa::find($request->id);
+
+        $cekSiswaLulus = $nilaiSiswa->where('status_lulus_mapel', 1)->first();
         $guru = Guru::find(Auth::user()->id_guru);
         $kelas = RefKelas::all();
-        $nilaiKeterampilan = NilaiKeterampilan::where('id_siswa', $siswaId)
-            ->where('id_guru', Auth::user()->id_guru)
-            ->where('id_kelas', $siswa->id_kelas_sekarang)
-            ->first();
-        $nilaiPengetahuan = NilaiPengetahuan::where('id_siswa', $siswaId)
-            ->where('id_guru', Auth::user()->id_guru)
-            ->where('id_kelas', $siswa->id_kelas_sekarang)
-            ->first();
-        return view('guru.siswa.detail', compact('siswa', 'kelas', 'nilaiKeterampilan', 'nilaiPengetahuan', 'guru', 'cekSiswaLulus'));
+        $nilaiPengetahuan = $nilaiSiswa->where('id', $request->id)->where('nilai_pengetahuan', '!=', null)->first();
+        $nilaiKeterampilan = $nilaiSiswa->where('id', $request->id)->where('nilai_keterampilan', '!=', null)->first();
+        return view('guru.siswa.detail', compact('nilaiSiswa', 'kelas', 'nilaiKeterampilan', 'nilaiPengetahuan', 'guru', 'cekSiswaLulus'));
     }
 
     public function siswa(Request $request)
     {
-        $siswa = Siswa::query();
+        $id_guru = Auth::user()->id_guru;
+        $nilaiSiswa = NilaiSiswa::where('id_guru', $id_guru);
         if ($request->cari) {
-            $siswa->where('nama_siswa', 'like', '%' . $request->cari . '%')->orWhere('nisn', 'like', '%' . $request->cari . '%');
+            $nilaiSiswa->whereHas('siswa', function ($query) use ($request) {
+                $query->where('nama_siswa', 'like', '%' . $request->cari . '%')
+                    ->orWhere('nisn', 'like', '%' . $request->cari . '%');
+            });
         }
         if ($request->input('pilihKelas')) {
-            $siswa->where('id_kelas_sekarang', $request->input('pilihKelas'));
+            $nilaiSiswa->where('id_kelas', $request->input('pilihKelas'));
         }
-        $siswa = $siswa->paginate(10);
+        $nilaiSiswa = $nilaiSiswa->paginate(10);
         $kelas = RefKelas::all();
-        $guru = Guru::where('id', Auth::user()->id_guru)->first();
+        $guru = Guru::where('id', $id_guru)->first();
         return view('guru.siswa.index', [
-            'siswa' => $siswa,
+            'nilaiSiswa' => $nilaiSiswa,
             'kelas' => $kelas,
-            'guru' => $guru
+            'guru' => $guru,
         ]);
     }
 
@@ -248,29 +250,20 @@ class GuruController extends Controller
     {
         try {
             $request->validate([
-                'id_kelas_sekarang' => 'required',
-                'semester' => 'required',
-                'id_mapel' => 'required',
-                'id_siswa' => 'required',
-                'id_status' => 'required',
-                'id_guru' => 'required',
+                'status_lulus_mapel' => 'required',
             ]);
-
-            $siswaLulus = new SiswaLulusMapel();
-            $siswaLulus->id_kelas = $request->id_kelas_sekarang;
-            $siswaLulus->semester = $request->semester;
-            $siswaLulus->id_mapel = $request->id_mapel;
-            $siswaLulus->id_siswa = $request->id_siswa;
-            $siswaLulus->id_status = $request->id_status;
-            if ($request->id_status == 1) {
-                $siswaLulus->nama_status = 'Lulus';
+            $nilaiSiswa = NilaiSiswa::find($request->id);
+            $nama_status = '';
+            if ($request->status_lulus_mapel == 1) {
+                $nama_status = 'Lulus';
+            } else {
+                $nama_status = 'Tidak Lulus';
             }
-            if ($request->id_status == 2) {
-                $siswaLulus->nama_status = 'Tidak Lulus';
-                $siswaLulus->alasan = $request->alasan;
-            }
-            $siswaLulus->id_guru = $request->id_guru;
-            $siswaLulus->save();
+            $nilaiSiswa->update([
+                'status_lulus_mapel' => $request->status_lulus_mapel,
+                'nama_status_lulus_mapel' => $nama_status,
+                'alasan_tidak_lulus' => $request->alasan_tidak_lulus ?? '',
+            ]);
             return redirect()->back()->with('success', 'Data Kelulusan Berhasil Direkam');
         } catch (\Throwable $th) {
             //throw $th;
@@ -299,7 +292,7 @@ class GuruController extends Controller
             $siswa->where('semester_sekarang', $request->input('pilihSemester'));
         }
 
-        $siswa = $siswa->with(['nilaiPengetahuan' => function ($query) use ($mapel) {
+        $siswa = $siswa->with(['nilaiSiswa' => function ($query) use ($mapel) {
             $query->where('id_mapel', $mapel->id);
         }])->paginate(10);
 
@@ -330,18 +323,33 @@ class GuruController extends Controller
 
             $predikat = '';
             $mapel = RefMapel::findOrFail($request->id_mapel);
+            $siswa = Siswa::findOrFail($request->id_siswa);
+            $predikat = NilaiSiswa::calculatePredikatPengetahuan($mapel->kkm, $request->nilai_pengetahuan);
 
-            $predikat = NilaiKeterampilan::calculatePredikat($mapel->kkm, $request->nilai_pengetahuann);
+            $cekDataNilai = NilaiSiswa::where('id_siswa', $request->id_siswa)->where('id_mapel', $request->id_mapel)->where('id_guru', $request->id_guru)->where('id_kelas', $request->id_kelas)->where('semester_id', $request->semester_sekarang)->where('tahun_ajaran', $siswa->tahun_ajaran)->first();
+            if ($cekDataNilai) {
+                $cekDataNilai->update([
+                    'nilai_pengetahuan' => $request->nilai_pengetahuan,
+                    'predikat_pengetahuan' => $predikat,
+                    'semester_id' => $request->semester_sekarang
+                ]);
 
-            NilaiPengetahuan::create([
-                'id_siswa' => $request->id_siswa,
-                'id_mapel' => $request->id_mapel,
-                'id_guru' => $request->id_guru,
-                'id_kelas' => $request->id_kelas,
-                'semester' => $request->semester_sekarang,
-                'nilai_pengetahuan' => $request->nilai_pengetahuan,
-                'predikat' => $predikat
-            ]);
+                return redirect()->back()->with('success', 'Nilai berhasil diperbarui');
+            } else {
+                NilaiSiswa::create([
+                    'id_siswa' => $request->id_siswa,
+                    'id_mapel' => $request->id_mapel,
+                    'id_guru' => $request->id_guru,
+                    'id_kelas' => $request->id_kelas,
+                    'nilai_pengetahuan' => $request->nilai_pengetahuan,
+                    'predikat_pengetahuan' => $predikat,
+                    'semester_id' => $request->semester_sekarang,
+                    'tahun_ajaran' => $siswa->tahun_ajaran,
+                    'status_lulus_mapel' => 1
+                ]);
+
+                return redirect()->back()->with('success', 'Nilai berhasil disimpan');
+            }
 
             return redirect()->back()->with('success', 'Nilai berhasil direkam.');
         } catch (\Exception $e) {
@@ -370,7 +378,7 @@ class GuruController extends Controller
             $siswa->where('semester_sekarang', $request->input('pilihSemester'));
         }
 
-        $siswa = $siswa->with(['nilaiKeterampilan' => function ($query) use ($mapel) {
+        $siswa = $siswa->with(['nilaiSiswa' => function ($query) use ($mapel) {
             $query->where('id_mapel', $mapel->id);
         }])->paginate(10);
 
@@ -427,24 +435,43 @@ class GuruController extends Controller
                 return redirect()->back()->with('error', 'Masukkan data nilai dari 0 sampai 100');
             }
 
-            $predikat = '';
             $mapel = RefMapel::findOrFail($request->id_mapel);
+            $siswa = Siswa::findOrFail($request->id_siswa);
+            $predikat = NilaiSiswa::calculatePredikatKeterampilan($mapel->kkm, $request->nilai_keterampilan);
 
-            $predikat = NilaiKeterampilan::calculatePredikat($mapel->kkm, $request->nilai_keterampilan);
+            $cekDataNilai = NilaiSiswa::where('id_siswa', $request->id_siswa)
+                ->where('id_mapel', $request->id_mapel)
+                ->where('id_guru', $request->id_guru)
+                ->where('id_kelas', $request->id_kelas)
+                ->where('semester_id', $request->semester_sekarang)
+                ->where('tahun_ajaran', $siswa->tahun_ajaran)
+                ->first();
 
-            NilaiKeterampilan::create([
-                'id_siswa' => $request->id_siswa,
-                'id_mapel' => $request->id_mapel,
-                'id_guru' => $request->id_guru,
-                'id_kelas' => $request->id_kelas,
-                'nilai_keterampilan' => $request->nilai_keterampilan,
-                'predikat' => $predikat,
-                'semester' => $request->semester_sekarang
-            ]);
+            if ($cekDataNilai) {
+                $cekDataNilai->update([
+                    'nilai_keterampilan' => $request->nilai_keterampilan,
+                    'predikat_keterampilan' => $predikat,
+                    'semester_id' => $request->semester_sekarang
+                ]);
 
-            return redirect()->back()->with('success', 'Nilai berhasil disimpan');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+                return redirect()->back()->with('success', 'Nilai berhasil diperbarui');
+            } else {
+                NilaiSiswa::create([
+                    'id_siswa' => $request->id_siswa,
+                    'id_mapel' => $request->id_mapel,
+                    'id_guru' => $request->id_guru,
+                    'id_kelas' => $request->id_kelas,
+                    'nilai_keterampilan' => $request->nilai_keterampilan,
+                    'predikat_keterampilan' => $predikat,
+                    'semester_id' => $request->semester_sekarang,
+                    'tahun_ajaran' => $siswa->tahun_ajaran,
+                    'status_lulus_mapel' => 1
+                ]);
+
+                return redirect()->back()->with('success', 'Nilai berhasil disimpan');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error during the creation: ' . $e->getMessage());
         }
     }
 

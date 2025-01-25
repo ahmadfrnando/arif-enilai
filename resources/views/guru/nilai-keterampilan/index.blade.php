@@ -83,18 +83,18 @@
                         {{ $s->semester_sekarang ?? '-' }}
                     </td>
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiKeterampilan->first()->nilai_keterampilan ?? '-' }}
+                        {{ $s->nilaiSiswa->first()->nilai_keterampilan ?? '-' }}
                     </td>
 
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiKeterampilan->first()->predikat ?? '-' }}
+                        {{ $s->nilaiSiswa->first()->predikat_keterampilan ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}" @if($s->nilaiKeterampilan->first() && $s->nilaiKeterampilan->first()->nilai_keterampilan)
+                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}" @if($s->nilaiSiswa->first() && $s->nilaiSiswa->first()->nilai_keterampilan)
                             disabled
                             @endif
-                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 @if($s->nilaiKeterampilan->first() && $s->nilaiKeterampilan->first()->nilai_keterampilan)
+                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 @if($s->nilaiSiswa->first() && $s->nilaiSiswa->first()->nilai_keterampilan)
                             cursor-not-allowed
                             @endif focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" type="button">
                             Beri Nilai

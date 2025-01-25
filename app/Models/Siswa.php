@@ -88,6 +88,11 @@ class Siswa extends Model
         return $this->hasMany(NilaiPengetahuan::class, 'id_siswa', 'id');
     }
 
+    public function nilaiSiswa()
+    {
+        return $this->hasMany(NilaiSiswa::class, 'id_siswa', 'id');
+    }
+
     public function nilaiKeterampilan()
     {
         return $this->hasMany(NilaiKeterampilan::class, 'id_siswa', 'id');
