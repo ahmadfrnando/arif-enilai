@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Exports\ReportAkademikExport;
+use App\Models\NilaiSiswa;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
@@ -80,15 +81,16 @@ class SiswaController extends Controller
     {
         $mapel = RefMapel::paginate(5);
         $siswa = Siswa::where('id', Auth::user()->id_siswa)->first();
-        $nilaiPengetahuanTertinggi = NilaiPengetahuan::where('id_siswa', Auth::user()->id_siswa)->where('semester', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->max('nilai_pengetahuan');
-        $nilaiPengetahuanTerendah = NilaiPengetahuan::where('id_siswa', Auth::user()->id_siswa)->where('semester', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->min('nilai_pengetahuan');
-        $nilaiKeterampilanTertinggi = NilaiKeterampilan::where('id_siswa', Auth::user()->id_siswa)->where('semester', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->max('nilai_keterampilan');
-        $nilaiKeterampilanTerendah = NilaiKeterampilan::where('id_siswa', Auth::user()->id_siswa)->where('semester', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->min('nilai_keterampilan');
+        $nilaiPengetahuanTertinggi = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->max('nilai_pengetahuan');
+        $nilaiPengetahuanTerendah = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->min('nilai_pengetahuan');
+        $nilaiKeterampilanTertinggi = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->max('nilai_keterampilan');
+        $nilaiKeterampilanTerendah = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->min('nilai_keterampilan');
         if (request()->ajax()) {
             return view('siswa.dashboard', compact('mapel', 'siswa', 'nilaiPengetahuanTertinggi', 'nilaiPengetahuanTerendah', 'nilaiKeterampilanTertinggi', 'nilaiKeterampilanTerendah'));
         }
+        $nilaiSiswa = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->paginate(5);
 
-        return view('siswa.dashboard', compact('mapel', 'siswa', 'nilaiPengetahuanTertinggi', 'nilaiPengetahuanTerendah', 'nilaiKeterampilanTertinggi', 'nilaiKeterampilanTerendah'));
+        return view('siswa.dashboard', compact('mapel', 'siswa', 'nilaiPengetahuanTertinggi', 'nilaiPengetahuanTerendah', 'nilaiKeterampilanTertinggi', 'nilaiKeterampilanTerendah', 'nilaiSiswa'));
     }
 
     public function nilai(Request $request)
@@ -97,6 +99,7 @@ class SiswaController extends Controller
         // $kelas = RefKelas::all();
         $mapel = RefMapel::all();
         $siswa = Siswa::where('id', Auth::user()->id_siswa)->first();
+        $nilaiSiswa = NilaiSiswa::where('id_siswa', Auth::user()->id_siswa)->where('semester_id', $siswa->semester_sekarang)->where('id_kelas', $siswa->id_kelas_sekarang)->get();
 
         // if ($request->filled(['pilihKelas', 'pilihSemester'])) {
         //     // Ambil data hanya jika kelas dan semester dipilih
@@ -124,7 +127,7 @@ class SiswaController extends Controller
         //     // return view('siswa.nilai.index', compact('mapel', 'siswa', 'kelas'));
         // }
 
-        return view('siswa.nilai.index', compact('mapel', 'siswa'));
+        return view('siswa.nilai.index', compact('mapel', 'siswa', 'nilaiSiswa'));
     }
 
     public function report()

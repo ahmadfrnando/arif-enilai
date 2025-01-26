@@ -80,29 +80,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($mapel as $key => $m)
+                    @foreach($nilaiSiswa as $key => $m)
                     <tr class="odd:bg-white even:bg-gray-50 border-b">
                         <td class="px-6 py-4">
-                            {{ $mapel->firstItem() + $key }}
+                            {{ $nilaiSiswa->firstItem() + $key }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $m->nama_mapel_lengkap }}
+                            {{ $m->mapel->nama_mapel_lengkap }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $m->kkm }}
+                            {{ $m->mapel->kkm }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $m->nilaiPengetahuan->nilai_pengetahuan ?? '-' }}
+                            {{ $m->nilai_pengetahuan ?? '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $m->nilaiKeterampilan->nilai_keterampilan ?? '-' }}
+                            {{ $m->nilai_keterampilan ?? '-' }}
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="p-4">
-                {{ $mapel->links() }}
+                {{ $nilaiSiswa->links() }}
             </div>
         </div>
     </div>

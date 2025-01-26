@@ -97,4 +97,9 @@ class Siswa extends Model
     {
         return $this->hasMany(NilaiKeterampilan::class, 'id_siswa', 'id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(RefStatusLulus::class, 'lulus_semester_sekarang', 'id');
+    }
 }

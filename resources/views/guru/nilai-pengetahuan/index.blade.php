@@ -91,12 +91,9 @@
                     </td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}" @if($s->nilaiSiswa->first() && $s->nilaiSiswa->first()->nilai_pengetahuan)
-                            disabled
-                            @endif
-                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 @if($s->nilaiSiswa->first() && $s->nilaiSiswa->first()->nilai_pengetahuan)
-                            cursor-not-allowed
-                            @endif focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" type="button">
+                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}"
+                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 
+                            focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" type="button">
                             Beri Nilai
                         </button>
 

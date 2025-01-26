@@ -12,6 +12,7 @@ use App\Models\NilaiPengetahuan;
 use App\Models\NilaiSiswa;
 use App\Models\RefKelas;
 use App\Models\RefMapel;
+use App\Models\RefStatusLulus;
 use App\Models\RefTahunAjaran;
 use App\Models\ReportAkademikSiswa;
 use App\Models\Siswa;
@@ -61,11 +62,14 @@ class GuruController extends Controller
     {
         $guru = Guru::where('id', Auth::user()->id_guru)->first();
         $waliKelas = WaliKelas::where('id_guru', $guru->id)->first();
-        $siswa = Siswa::where('id_kelas_sekarang', $waliKelas->id_kelas)->paginate(10);
-        $mapel = RefMapel::all();
+        // $siswa = Siswa::where('id_kelas_sekarang', $waliKelas->id_kelas)->paginate(10);
+        // $mapel = RefMapel::all();
 
-        $siswaLulusSemester = Siswa::with('siswaLulusSemester')->where('id_kelas_sekarang', $waliKelas->id_kelas)->paginate(10);
-        return view('guru.verifikasi-kelulusan', compact('siswa', 'waliKelas', 'mapel', 'siswaLulusSemester'));
+        // $siswaLulusSemester = Siswa::with('siswaLulusSemester')->where('id_kelas_sekarang', $waliKelas->id_kelas)->paginate(10);
+
+        $siswaLulusSemester = Siswa::where('id_kelas_sekarang', $waliKelas->id_kelas)->paginate(10);
+
+        return view('guru.verifikasi-kelulusan', compact('siswaLulusSemester', 'waliKelas'));
     }
 
     public function lulusSemesterDetail(Request $request)
@@ -74,30 +78,19 @@ class GuruController extends Controller
 
         $siswa = Siswa::findOrFail($id_siswa);
 
-        $siswaLulusMapel = SiswaLulusMapel::with([
-            'mapel',
-            'mapel.nilaiPengetahuan',
-            'mapel.nilaiKeterampilan'
-        ])->where('id_siswa', $id_siswa)->get();
-
+        $dataNilaiMapel = NilaiSiswa::where('id_siswa', $id_siswa)->get();
         $cekLulusMapel = RefMapel::whereNotIn('id', function ($query) use ($id_siswa) {
-            $query->select('id_mapel')->from('siswa_lulus_mapel')->where('id_siswa', $id_siswa);
+            $query->select('id_mapel')
+                ->from('nilai_siswa')
+                ->where('id_siswa', $id_siswa)
+                ->whereNotNull('nilai_pengetahuan')
+                ->whereNotNull('nilai_keterampilan');
         })->get();
 
         $pilihTahunAjaran = RefTahunAjaran::all();
+        $cekLulusSemester = Siswa::where('id', $id_siswa)->where('lulus_semester_sekarang', 2)->first();
 
-        $cekLulusSemester = SiswaLulusSemester::where('id_siswa', $id_siswa)
-            ->where('id_kelas', $siswa->id_kelas_sekarang)
-            ->where('semester', $siswa->semester_sekarang)
-            ->first();
-
-        // $dataNilaiMapel = siswaLulusMapel::with([
-        //     'nilaiPengetahuan',
-        //     'nilaiKeterampilan',
-        //     'mapel'
-        // ])->where('id_siswa', $id_siswa)->get();
-
-        return view('guru.detail-lulus-semester', compact('siswa', 'siswaLulusMapel', 'cekLulusMapel', 'pilihTahunAjaran', 'cekLulusSemester'));
+        return view('guru.detail-lulus-semester', compact('dataNilaiMapel', 'siswa', 'cekLulusSemester', 'cekLulusMapel', 'pilihTahunAjaran'));
     }
 
     public function inputLulusSemester(Request $request)
@@ -105,7 +98,6 @@ class GuruController extends Controller
         $nama_status = 'Lulus';
         $alasan = $request->alasan ?? null;
         $pesan = "";
-
         try {
             $request->validate([
                 'id_siswa' => 'required',
@@ -116,14 +108,13 @@ class GuruController extends Controller
                 'tahun_ajaran' => 'required'
             ]);
 
-            if ($request->has('alasan')) {
-                $request->validate(['alasan' => 'required']);
+            if ($request->filled('alasan')) {
                 $nama_status = 'Tidak Lulus';
+                $request->validate(['alasan' => 'required']);
                 $alasan = $request->alasan;
-                $pesan = $alasan;
             }
-
-            if ($request->has('pesan')) {
+            
+            if ($request->filled('pesan')) {
                 $request->validate(['pesan' => 'required']);
                 $pesan = $request->pesan;
             }
@@ -134,7 +125,7 @@ class GuruController extends Controller
                 'id_kelas' => $request->id_kelas,
                 'id_guru' => $request->id_guru,
                 'id_status' => $request->id_status,
-                'nama_status' => $nama_status,
+                'nama_status' => RefStatusLulus::where('id', $request->id_status)->first()->nama_status_lulus,
                 'alasan' => $alasan
             ]);
 
@@ -143,10 +134,7 @@ class GuruController extends Controller
             $nama_kelas = RefKelas::find($request->id_kelas)->nama_kelas;
             $nama_guru = Guru::find($request->id_guru)->nama_guru;
             $nama_semester = Siswa::find($request->id_siswa)->semester_sekarang;
-            $siswaLulusMapel = SiswaLulusMapel::with([
-                'mapel.nilaiPengetahuan',
-                'mapel.nilaiKeterampilan'
-            ])->where('id_siswa', $request->id_siswa)->get();
+            $siswaLulusMapel = nilaiSiswa::where('id_siswa', $request->id_siswa)->get();
 
             $dataNilai = [];
             foreach ($siswaLulusMapel as $s) {
@@ -155,12 +143,12 @@ class GuruController extends Controller
                         'nama_mapel' => $s->mapel->nama_mapel_lengkap,
                         'kkm' => $s->mapel->kkm,
                         'pengetahuan' => [
-                            'nilai' => $s->mapel->nilaiPengetahuan->nilai_pengetahuan,
-                            'predikat' => $s->mapel->nilaiPengetahuan->predikat
+                            'nilai' => $s->mapel->nilai->nilai_pengetahuan,
+                            'predikat' => $s->mapel->nilai->predikat_pengetahuan
                         ],
                         'keterampilan' => [
-                            'nilai' => $s->mapel->nilaiKeterampilan->nilai_keterampilan,
-                            'predikat' => $s->mapel->nilaiKeterampilan->predikat
+                            'nilai' => $s->mapel->nilai->nilai_keterampilan,
+                            'predikat' => $s->mapel->nilai->predikat_keterampilan
                         ],
                     ]
                 ];
@@ -181,6 +169,11 @@ class GuruController extends Controller
                     'pesan' => $pesan,
                 ]);
             }
+
+            $siswa = Siswa::find($request->id_siswa);
+            $siswa->update([
+                'lulus_semester_sekarang' => 2,
+            ]);
 
             return redirect()->back()->with('success', 'Siswa Lulus Semester Berhasil Direkam');
         } catch (\Throwable $th) {
@@ -253,16 +246,11 @@ class GuruController extends Controller
                 'status_lulus_mapel' => 'required',
             ]);
             $nilaiSiswa = NilaiSiswa::find($request->id);
-            $nama_status = '';
-            if ($request->status_lulus_mapel == 1) {
-                $nama_status = 'Lulus';
-            } else {
-                $nama_status = 'Tidak Lulus';
-            }
+
             $nilaiSiswa->update([
                 'status_lulus_mapel' => $request->status_lulus_mapel,
-                'nama_status_lulus_mapel' => $nama_status,
-                'alasan_tidak_lulus' => $request->alasan_tidak_lulus ?? '',
+                'nama_status_lulus_mapel' => RefStatusLulus::where('id', $request->status_lulus_mapel)->first()->nama_status,
+                'alasan_tidak_lulus' => $request->alasan_tidak_lulus,
             ]);
             return redirect()->back()->with('success', 'Data Kelulusan Berhasil Direkam');
         } catch (\Throwable $th) {

@@ -48,6 +48,9 @@
                         Kelas
                     </th>
                     <th class="px-6 py-3">
+                        Status
+                    </th>
+                    <th class="px-6 py-3">
                         Aksi
                     </th>
                 </tr>
@@ -65,7 +68,16 @@
                         {{ $s->siswa->nisn}}
                     </td>
                     <td class="px-6 py-4">
-                        {!! $s->kelas->nama_kelas ?? '-' !!}
+                        {{ $s->kelas->nama_kelas }}
+                    </td>
+                    <td class="px-6 py-4">
+                            @if($s->status_lulus_mapel == 1)
+                            <span class="bg-gray-100 text-gray-800 whitespace-nowrap text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $s->status->nama_status_lulus }}</span>
+                            @elseif($s->status_lulus_mapel == 2)
+                            <span class="whitespace-nowrap bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded whitespace-nowrap">{{ $s->status->nama_status_lulus }}</span>
+                            @elseif($s->status_lulus_mapel == 3)
+                            <span class="whitespace-nowrap bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
+                            @endif
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('guru.siswa.show', ['id' => $s->id]) }}" class="px-3 py-2 text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">Beri Kelulusan {{ $guru->mapel->nama_mapel }}</a>

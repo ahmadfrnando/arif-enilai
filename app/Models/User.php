@@ -60,16 +60,14 @@ class User extends Authenticatable implements FilamentUser
 
         // Event created: dijalankan setelah data siswa ditambahkan
         static::updated(function ($user) {
-            if($user->role == 'siswa')
-            {   
+            if ($user->role == 'siswa') {
                 $siswa = Siswa::where('id', $user->id_siswa)->first();
                 $siswa->update([
                     'nama_siswa' => $user->name,
                     'email' => $user->email
                 ]);
             }
-            if($user->role == 'guru')
-            {   
+            if ($user->role == 'guru') {
                 $guru = Guru::where('id', $user->id_guru)->first();
                 $guru->update([
                     'nama_guru' => $user->name,

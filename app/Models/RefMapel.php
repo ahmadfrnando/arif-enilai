@@ -18,13 +18,9 @@ class RefMapel extends Model
         'kkm'
     ];
 
-    public function nilaiPengetahuan()
+    public function nilai()
     {
-        return $this->hasOne(NilaiPengetahuan::class, 'id_mapel', 'id');
-    }
-    public function nilaiKeterampilan()
-    {
-        return $this->hasOne(NilaiKeterampilan::class, 'id_mapel', 'id');
+        return $this->hasOne(NilaiSiswa::class, 'id_mapel', 'id');
     }
 
     public function siswaLulusMapel()

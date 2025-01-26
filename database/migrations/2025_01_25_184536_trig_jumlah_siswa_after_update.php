@@ -29,7 +29,7 @@ return new class extends Migration
 
                 -- Update tabel ref_kelas untuk kelas lama
                 UPDATE ref_kelas
-                SET jumlah_kelas = total_siswa_old
+                SET jumlah_siswa = total_siswa_old
                 WHERE id = OLD.id_kelas_sekarang;
 
                 -- Hitung jumlah siswa di kelas baru

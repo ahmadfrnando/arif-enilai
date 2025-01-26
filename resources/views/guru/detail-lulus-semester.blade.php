@@ -47,7 +47,7 @@
                                         <input type="number" name="semester" value="{{ $siswa->semester_sekarang }}" hidden readonly>
                                         <input type="number" name="id_kelas" value="{{ $siswa->id_kelas_sekarang }}" hidden readonly>
                                         <input type="number" name="id_guru" value="{{ Auth()->user()->id_guru }}" hidden readonly>
-                                        <input type="number" name="id_status" value="1" hidden readonly>
+                                        <input type="number" name="id_status" value="2" hidden readonly>
                                         <div class="py-4">
                                             <select id="tahun_ajaran" name="tahun_ajaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                                 <option value="" selected>-- Pilih Tahun Ajaran --</option>
@@ -123,7 +123,7 @@
                     </svg>
                     <span class="sr-only">Info</span>
                     <div>
-                        <span class="font-medium">Info!</span> Anda telah memverifikasi kelulusan semester pada siswa {{ $siswa->nama_siswa }} dengan status {{ $cekLulusSemester->nama_status }} pada kelas {{ $siswa->kelas->nama_kelas }} di semester {{ $siswa->semester_sekarang }}
+                        <span class="font-medium">Info!</span> Anda telah memverifikasi kelulusan semester pada siswa {{ $siswa->nama_siswa }} dengan status {{ $cekLulusSemester->status->nama_status_lulus }} pada kelas {{ $siswa->kelas->nama_kelas }} di semester {{ $siswa->semester_sekarang }}
                     </div>
                 </div>
                 @endif
@@ -179,7 +179,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($siswaLulusMapel as $s)
+                    @foreach($dataNilaiMapel as $s)
                     <tr class="bg-white border-b dark:bg-gray-800">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900">
                             {{ $loop->iteration }}
@@ -191,28 +191,28 @@
                             {{ $s->mapel->kkm }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $s->mapel->nilaiPengetahuan->nilai_pengetahuan ?? '-' }}
+                            {{ $s->nilai_pengetahuan ?? '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $s->mapel->nilaiPengetahuan->predikat ?? '-' }}
+                            {{ $s->predikat_pengetahuan ?? '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $s->mapel->nilaiKeterampilan->nilai_keterampilan ?? '-' }}
+                            {{ $s->nilai_keterampilan ?? '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $s->mapel->nilaiKeterampilan->predikat ?? '-' }}
+                            {{ $s->predikat_keterampilan ?? '-' }}
                         </td>
                         <td class="px-6 py-4">
-                            @if($s->id_status == 1)
-                            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $s->nama_status }}</span>
-                            @elseif($s->id_status == 2)
-                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded whitespace-nowrap">{{ $s->nama_status }}</span>
-                            @else
-                            <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Belum diverifikasi</span>
+                            @if($s->status_lulus_mapel == 1)
+                            <span class="bg-gray-100 text-gray-800 whitespace-nowrap text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $s->status->nama_status_lulus }}</span>
+                            @elseif($s->status_lulus_mapel == 2)
+                            <span class="whitespace-nowrap bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded whitespace-nowrap">{{ $s->status->nama_status_lulus }}</span>
+                            @elseif($s->status_lulus_mapel == 3)
+                            <span class="whitespace-nowrap bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            {{ $s->alasan ?? '-' }}
+                            {{ $s->alasan_tidak_lulus ?? '-' }}
                         </td>
                     </tr>
                     @endforeach

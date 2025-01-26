@@ -11,7 +11,7 @@ class NilaiSiswa extends Model
 
     protected $table = 'nilai_siswa';
     protected $guarded = [];
-    
+
 
     public static function calculatePredikatPengetahuan($kkm, $nilai_pengetahuan)
     {
@@ -99,5 +99,8 @@ class NilaiSiswa extends Model
     //     });
     // }
 
-    
+    public function status()
+    {
+        return $this->belongsTo(RefStatusLulus::class, 'status_lulus_mapel', 'id');
+    }
 }

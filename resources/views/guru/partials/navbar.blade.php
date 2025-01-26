@@ -10,7 +10,7 @@
                 </button>
                 <a href="/guru/dashboard" class="flex ms-2 md:me-24">
                     <img src="{{ asset('logo.svg') }}" class="h-8 me-3" alt="Logo" />
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gray-200">SMA KARTIKA (Guru)</span>
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gray-200">SMA KARTIKA ({{auth()->user()->name}})</span>
                 </a>
             </div>
             <div class="flex items-center">
