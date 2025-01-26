@@ -44,12 +44,14 @@ class SiswaLulusSemesterResource extends Resource
                     ->label('Wali Kelas'),
                 BadgeColumn::make('id_status')
                     ->enum([
-                        '1' => 'Lulus',
-                        '2' => 'Tidak Lulus',
+                        '1' => 'Belum diverifikasi',
+                        '2' => 'Lulus',
+                        '3' => 'Tidak Lulus',
                     ])
                     ->colors([
-                        'success' => '1',
-                        'danger' => '2',
+                        'primary' => '1',
+                        'success' => '2',
+                        'danger' => '3',
                     ])
                     ->label('status')
             ])

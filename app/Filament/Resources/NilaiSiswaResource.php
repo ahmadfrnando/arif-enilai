@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\NilaiKeterampilanResource\Pages;
-use App\Filament\Resources\NilaiKeterampilanResource\RelationManagers;
+use App\Filament\Resources\NilaiSiswaResource\Pages;
+use App\Filament\Resources\NilaiSiswaResource\RelationManagers;
 use App\Models\Guru;
-use App\Models\NilaiKeterampilan;
+use App\Models\NilaiSiswa;
 use App\Models\RefKelas;
-use App\Models\RefMapel;
 use App\Models\Siswa;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -20,13 +19,13 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class NilaiKeterampilanResource extends Resource
+class NilaiSiswaResource extends Resource
 {
-    protected static ?string $model = NilaiKeterampilan::class;
+    protected static ?string $model = NilaiSiswa::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
     {
@@ -45,7 +44,10 @@ class NilaiKeterampilanResource extends Resource
                         ->get()
                         ->pluck('label', 'value'))
                     ->required(),
-                TextInput::make('nilai_keterampilan')
+                TextInput::make('nilai_pengetahuan')
+                    ->numeric()
+                    ->required(),
+                TextInput::make('nilai_keetrampilan')
                     ->numeric()
                     ->required(),
             ]);
@@ -59,17 +61,18 @@ class NilaiKeterampilanResource extends Resource
                 Tables\Columns\TextColumn::make('siswa.nama_siswa')->label('Siswa')->searchable(),
                 Tables\Columns\TextColumn::make('mapel.nama_mapel')->label('Mata Pelajaran')->searchable(),
                 Tables\Columns\TextColumn::make('kelas.nama_kelas')->label('Kelas')->searchable(),
-                Tables\Columns\TextColumn::make('semester')->label('Semester')->searchable(),
+                Tables\Columns\TextColumn::make('semester_id')->label('Semester')->searchable(),
+                Tables\Columns\TextColumn::make('nilai_pengetahuan')->label('Nilai Pengetahuan')->searchable(),
+                Tables\Columns\TextColumn::make('predikat_pengetahuan')->label('Predikat')->searchable(),
                 Tables\Columns\TextColumn::make('nilai_keterampilan')->label('Nilai Keterampilan')->searchable(),
-                Tables\Columns\TextColumn::make('predikat')->label('Predikat')->searchable(),
-                Tables\Columns\TextColumn::make('guru.nama_guru')
-                    ->label('Guru')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('predikat_keterampilan')->label('Predikat')->searchable(),
+                Tables\Columns\TextColumn::make('guru.nama_guru')->label('Guru')->searchable(),
+                Tables\Columns\TextColumn::make('status.nama_status_lulus')->label('Status')->searchable(),
             ])
             ->filters([
                 SelectFilter::make('id_kelas')->label('Pilih Kelas')
                     ->options(RefKelas::all()->pluck('nama_kelas', 'id')),
-                SelectFilter::make('semester')->label('Pilih Semester')
+                SelectFilter::make('semester_id')->label('Pilih Semester')
                     ->options([
                         '1' => '1',
                         '2' => '2',
@@ -85,19 +88,12 @@ class NilaiKeterampilanResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNilaiKeterampilans::route('/'),
-            'create' => Pages\CreateNilaiKeterampilan::route('/create'),
-            'edit' => Pages\EditNilaiKeterampilan::route('/{record}/edit'),
+            'index' => Pages\ListNilaiSiswas::route('/'),
+            'create' => Pages\CreateNilaiSiswa::route('/create'),
+            'edit' => Pages\EditNilaiSiswa::route('/{record}/edit'),
         ];
     }
 }
