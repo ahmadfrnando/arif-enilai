@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class GuestController extends Controller
 {
     public function index()
-    {
+    {   
         return view('guest.index', [
             'data' => DataSekolah::latest()->first(),
             'galleries' => Gallery::all()

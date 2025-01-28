@@ -23,8 +23,8 @@
         <form action="{{ route('login.process') }}" method="POST">
             @csrf
             <div class="mb-4">
-                <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
-                <input type="email" name="email" id="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-200" placeholder="Email" required>
+                <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
+                <input type="text" name="username" id="username" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-200" placeholder="Username" required>
             </div>
 
             <div class="mb-6">

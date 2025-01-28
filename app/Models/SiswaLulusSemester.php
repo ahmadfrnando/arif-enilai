@@ -31,4 +31,8 @@ class SiswaLulusSemester extends Model
     {
         return $this->belongsTo(RefKelas::class, 'id_kelas', 'id');
     }
+    public function status()
+    {
+        return $this->belongsTo(RefStatusLulus::class, 'id_status', 'id');
+    }
 }

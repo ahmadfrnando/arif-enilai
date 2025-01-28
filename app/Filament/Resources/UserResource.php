@@ -31,7 +31,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->label('Nama')->required(),
-                Forms\Components\TextInput::make('email')->label('Email')->email()->required(),
+                Forms\Components\TextInput::make('username')->label('Usernmae')->required(),
                 Forms\Components\TextInput::make('password')->label('Password')->password()
                     ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                     ->required(),
@@ -52,7 +52,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('No')->rowIndex(),
                 Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('email')->searchable(),
+                Tables\Columns\TextColumn::make('username')->searchable(),
                 Tables\Columns\TextColumn::make('role'),
             ])
             ->filters([

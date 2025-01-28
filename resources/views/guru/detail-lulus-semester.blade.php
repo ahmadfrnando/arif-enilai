@@ -19,9 +19,9 @@
                 @endif
                 <h5 class="mb-1 text-xl font-medium text-gray-900">{{ $siswa->nama_siswa }}</h5>
                 <span class="text-sm text-gray-500">{{ $siswa->nisn }}</span>
-                @if($cekLulusSemester == null)
+                @if($siswa->lulus_semester_sekarang == 1)
                 <div class="flex mt-4 md:mt-6">
-                    <button type="button" data-modal-target="popup-modal-1" data-modal-toggle="popup-modal-1" class="flex flex-row items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 {!! $cekLulusMapel->count() > 0 ? 'cursor-not-allowed' : '' !!} " {!! $cekLulusMapel->count() > 0 ? 'disabled' : '' !!}>
+                    <button type="button" data-modal-target="popup-modal-1" data-modal-toggle="popup-modal-1" class="flex flex-row items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
                         </svg>
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" data-modal-target="popup-modal-2" data-modal-toggle="popup-modal-2" class="flex flex-row py-2 px-4 ms-2 text-sm font-medium text-white focus:outline-none bg-red-700 rounded-lg border border-red-200 hover:bg-red-100 {!! $cekLulusMapel->count() > 0 ? 'cursor-not-allowed' : '' !!} hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-red-100" {!! $cekLulusMapel->count() > 0 ? 'disabled' : '' !!}>
+                    <button type="button" data-modal-target="popup-modal-2" data-modal-toggle="popup-modal-2" class="flex flex-row py-2 px-4 ms-2 text-sm font-medium text-white focus:outline-none bg-red-700 rounded-lg border border-red-200 hover:bg-red-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-red-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -94,7 +94,7 @@
                                         <input type="number" name="semester" value="{{ $siswa->semester_sekarang }}" hidden readonly>
                                         <input type="number" name="id_kelas" value="{{ $siswa->id_kelas_sekarang }}" hidden readonly>
                                         <input type="number" name="id_guru" value="{{ Auth()->user()->id_guru }}" hidden readonly>
-                                        <input type="number" name="id_status" value="2" hidden readonly>
+                                        <input type="number" name="id_status" value="3" hidden readonly>
                                         <div class="py-4">
                                             <select id="tahun_ajaran" name="tahun_ajaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                                 <option value="" selected>-- Pilih Tahun Ajaran --</option>
@@ -117,29 +117,13 @@
                     </div>
                 </div>
                 @else
-                <div class="m-4 flex items-center p-4  text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+                <div class="m-4 flex items-center p-4 {{ $cekLulusSemester->lulus_semester_sekarang == 2 ? 'text-green-800 bg-green-50' : 'text-red-800 bg-red-50' }}  text-sm  rounded-lg" role="alert">
                     <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                     </svg>
                     <span class="sr-only">Info</span>
                     <div>
-                        <span class="font-medium">Info!</span> Anda telah memverifikasi kelulusan semester pada siswa {{ $siswa->nama_siswa }} dengan status {{ $cekLulusSemester->status->nama_status_lulus }} pada kelas {{ $siswa->kelas->nama_kelas }} di semester {{ $siswa->semester_sekarang }}
-                    </div>
-                </div>
-                @endif
-                @if($cekLulusMapel->count() > 0)
-                <div class="flex m-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                    <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
-                    <span class="sr-only">info</span>
-                    <div>
-                        <span class="font-medium">Info! masih ada mata kuliah yang belum diverifikasi lulus yaitu:</span>
-                        @foreach($cekLulusMapel as $c)
-                        <ul class="mt-1.5 list-disc list-inside">
-                            <li>{{ $c->nama_mapel }}</li>
-                        </ul>
-                        @endforeach
+                        <span class="font-medium">Info!</span> Anda telah memverifikasi kelulusan semester pada siswa {{ $siswa->nama_siswa }} dengan status {{ $siswa->status->nama_status_lulus }} pada kelas {{ $siswa->kelas->nama_kelas }} di semester {{ $siswa->semester_sekarang }}
                     </div>
                 </div>
                 @endif

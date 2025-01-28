@@ -88,7 +88,8 @@ class GuruController extends Controller
         })->get();
 
         $pilihTahunAjaran = RefTahunAjaran::all();
-        $cekLulusSemester = Siswa::where('id', $id_siswa)->where('lulus_semester_sekarang', 2)->first();
+        $cekLulusSemester = Siswa::where('id', $id_siswa)->first();
+        // $cekLulusSemester = SiswaLulusSemester::where('id', $id_siswa)->first();
 
         return view('guru.detail-lulus-semester', compact('dataNilaiMapel', 'siswa', 'cekLulusSemester', 'cekLulusMapel', 'pilihTahunAjaran'));
     }
@@ -172,7 +173,7 @@ class GuruController extends Controller
 
             $siswa = Siswa::find($request->id_siswa);
             $siswa->update([
-                'lulus_semester_sekarang' => 2,
+                'lulus_semester_sekarang' => $request->id_status,
             ]);
 
             return redirect()->back()->with('success', 'Siswa Lulus Semester Berhasil Direkam');
