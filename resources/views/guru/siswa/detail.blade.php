@@ -12,7 +12,7 @@
         <div class="w-full flex p-4 gap-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div>
                 @if ($nilaiSiswa->siswa->pas_foto)
-                <img src="{{ asset('storage/' . $siswa->pas_foto) }}" alt="foto siswa {{ $siswa->nama_siswa }}">
+                <img src="{{ asset('storage/' . $nilaiSiswa->siswa->pas_foto) }}" alt="foto siswa {{ $nilaiSiswa->siswa->nama_siswa }}">
                 @else
                 <div class="w-60 h-64 bg-gray-200 rounded flex items-center justify-center">
                     <span class="text-6xl">{{ strtoupper(substr($nilaiSiswa->siswa->nama_siswa, 0, 2)) }}</span>

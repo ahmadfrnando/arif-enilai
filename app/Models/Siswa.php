@@ -24,7 +24,7 @@ class Siswa extends Model
             // dd($siswa->id);
             User::create([
                 'name' => $siswa->nama_siswa,
-                'email' => $siswa->email,
+                'username' => $siswa->username,
                 'id_siswa' => $siswa->id,
                 'role' => 'siswa',
                 'password' => Hash::make('123'), // Password default
@@ -43,16 +43,8 @@ class Siswa extends Model
             if ($user) {
                 $user->update([
                     'name' => $siswa->nama_siswa,
-                    'email' => $siswa->email,
                 ]);
             }
-
-            $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
-            RefKelas::updateOrCreate([
-                'id' => $siswa->id_kelas_sekarang,
-            ], [
-                'jumlah_siswa' => $jumlahSiswa + 1
-            ]);
         });
 
         static::deleted(function ($siswa) {
@@ -60,12 +52,6 @@ class Siswa extends Model
             if ($user) {
                 $user->delete();
             }
-            $jumlahSiswa = RefKelas::where('id', $siswa->id_kelas_sekarang)->first()->jumlah_siswa ?? 0;
-            RefKelas::updateOrCreate([
-                'id' => $siswa->id_kelas_sekarang,
-            ], [
-                'jumlah_siswa' => $jumlahSiswa - 1
-            ]);
         });
     }
 

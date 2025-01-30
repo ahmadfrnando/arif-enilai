@@ -62,10 +62,10 @@
                         {{ $nilaiSiswa->firstItem() + $key }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $s->siswa->nama_siswa }}
+                        {{ $s->siswa->nama_siswa ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $s->siswa->nisn}}
+                        {{ $s->siswa->nisn ?? '-'}}
                     </td>
                     <td class="px-6 py-4">
                         {{ $s->kelas->nama_kelas }}

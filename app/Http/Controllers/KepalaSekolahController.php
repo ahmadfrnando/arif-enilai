@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\NilaiKeterampilan;
 use App\Models\NilaiPengetahuan;
+use App\Models\NilaiSiswa;
 use App\Models\RefKelas;
 use App\Models\RefMapel;
 use App\Models\Siswa;
@@ -109,13 +110,13 @@ class KepalaSekolahController extends Controller
         $mapelId = $request->input('pilihMapel');
         $cari = $request->input('cari');
 
-        $query = NilaiPengetahuan::query()->with('siswa');
+        $query = NilaiSiswa::query()->with('siswa');
 
         if ($kelasId) {
             $query->where('id_kelas', $kelasId);
         }
         if ($semester) {
-            $query->where('semester', $semester);
+            $query->where('semester_id', $semester);
         }
         if ($mapelId) {
             $query->where('id_mapel', $mapelId);
@@ -140,13 +141,13 @@ class KepalaSekolahController extends Controller
         $mapelId = $request->input('pilihMapel');
         $cari = $request->input('cari');
 
-        $query = NilaiKeterampilan::query()->with('siswa');
+        $query = NilaiSiswa::query()->with('siswa');
 
         if ($kelasId) {
             $query->where('id_kelas', $kelasId);
         }
         if ($semester) {
-            $query->where('semester', $semester);
+            $query->where('semester_id', $semester);
         }
         if ($mapelId) {
             $query->where('id_mapel', $mapelId);

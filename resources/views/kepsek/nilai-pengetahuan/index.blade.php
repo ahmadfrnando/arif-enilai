@@ -97,7 +97,7 @@
                         {{ $n->nilai_pengetahuan }}
                     </td>
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $n->predikat}}
+                        {{ $n->predikat_pengetahuan }}
                     </td>
                 </tr>
                 @endforeach
