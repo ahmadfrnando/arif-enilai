@@ -40,6 +40,9 @@ class SiswaResource extends Resource
                     Forms\Components\TextInput::make('email')
                         ->email()
                         ->required(),
+                    Forms\Components\TextInput::make('username')
+                        ->unique()
+                        ->required(),
                     Forms\Components\TextInput::make('nisn')
                         ->required()
                         ->maxLength(20),

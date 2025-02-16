@@ -52,7 +52,7 @@ class Login extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        if (! Filament::auth()->attempt([
+        if (!Filament::auth()->attempt([
             'username' => $data['username'],
             'password' => $data['password'],
         ], $data['remember'])) {
@@ -71,8 +71,7 @@ class Login extends Component implements HasForms
         return [
             TextInput::make('username')
                 ->label(__('Username'))
-                ->required()
-                ->autocomplete(),
+                ->required(),
             TextInput::make('password')
                 ->label(__('filament::login.fields.password.label'))
                 ->password()

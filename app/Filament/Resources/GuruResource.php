@@ -35,6 +35,10 @@ class GuruResource extends Resource
                         Forms\Components\TextInput::make('nama_guru')
                             ->required()
                             ->maxLength(20),
+                        Forms\Components\TextInput::make('username')
+                            ->required()
+                            ->unique()
+                            ->maxLength(20),
                         Forms\Components\TextInput::make('nip')
                             ->required()
                             ->maxLength(20),
@@ -105,6 +109,8 @@ class GuruResource extends Resource
                 Tables\Columns\TextColumn::make('No')
                     ->rowIndex(),
                 Tables\Columns\TextColumn::make('nama_guru')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('username')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin'),
                 Tables\Columns\TextColumn::make('jabatan')

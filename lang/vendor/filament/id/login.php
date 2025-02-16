@@ -31,7 +31,7 @@ return [
     ],
 
     'messages' => [
-        'failed' => 'Kredensial yang diberikan tidak dapat ditemukan.',
+        'failed' => 'Username dan password salah',
         'throttled' => 'Terlalu banyak percobaan masuk. Silakan ulangi dalam :seconds detik.',
     ],
 
