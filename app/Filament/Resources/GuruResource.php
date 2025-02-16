@@ -39,9 +39,6 @@ class GuruResource extends Resource
                             ->required()
                             ->unique()
                             ->maxLength(20),
-                        Forms\Components\TextInput::make('nip')
-                            ->required()
-                            ->maxLength(20),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->required(),
