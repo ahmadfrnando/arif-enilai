@@ -20,6 +20,45 @@ class User extends Authenticatable implements FilamentUser
         return str_ends_with($this->username, 'admin');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($user) {
+            if ($user->id_guru !== null) {
+                $guru = Guru::where('id', $user->id_guru)->first();
+                if ($guru) {
+                    $guru->update([
+                        'nama_guru' => $user->name,
+                        'username' => $user->username,
+                    ]);
+                }
+            } else if ($user->id_siswa !== null) {
+                $siswa = Siswa::where('id', $user->id_siswa)->first();
+                if ($siswa) {
+                    $siswa->update([
+                        'nama_siswa' => $user->name,
+                        'username' => $user->username,
+                    ]);
+                }
+            }
+        });
+
+        static::deleted(function ($user) {
+            if ($user->id_guru !== null) {
+                $guru = Guru::where('id', $user->id_guru)->first();
+                if ($guru) {
+                    $guru->delete();
+                }
+            } else if ($user->id_siswa !== null) {
+                $siswa = Siswa::where('id', $user->id_siswa)->first();
+                if ($siswa) {
+                    $siswa->delete();
+                }
+            }
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *

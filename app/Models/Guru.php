@@ -23,7 +23,7 @@ class Guru extends Model
         static::created(function ($guru) {
             User::create([
                 'name' => $guru->nama_guru,
-                'email' => $guru->email,
+                'username' => $guru->username,
                 'id_guru' => $guru->id,
                 'role' => 'guru',
                 'password' => Hash::make('123'), // Password default
@@ -35,7 +35,7 @@ class Guru extends Model
             if ($user) {
                 $user->update([
                     'name' => $guru->nama_guru,
-                    'email' => $guru->email,
+                    'username' => $guru->username,
                 ]);
             }
         });

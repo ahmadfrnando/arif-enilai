@@ -42,6 +42,7 @@ class Siswa extends Model
             $user = User::where('id_siswa', $siswa->id)->first();
             if ($user) {
                 $user->update([
+                    'username' => $siswa->username,
                     'name' => $siswa->nama_siswa,
                 ]);
             }
