@@ -39,9 +39,6 @@ class GuruResource extends Resource
                             ->required()
                             ->unique()
                             ->maxLength(20),
-                        Forms\Components\TextInput::make('email')
-                            ->email()
-                            ->required(),
                         Forms\Components\Select::make('jenis_kelamin')
                             ->options([
                                 'Laki-laki' => 'Laki-laki',
