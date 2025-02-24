@@ -41,8 +41,8 @@ class GuruResource extends Resource
                             ->maxLength(20),
                         Forms\Components\Select::make('jenis_kelamin')
                             ->options([
-                                'Laki-laki' => 'Laki-laki',
-                                'Perempuan' => 'Perempuan',
+                                'L' => 'Laki-laki',
+                                'P' => 'Perempuan',
                             ])
                             ->required(),
                         Forms\Components\TextInput::make('tempat_lahir')
