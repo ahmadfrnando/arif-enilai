@@ -77,8 +77,6 @@ class RefMapelSeeder extends Seeder
                 'nama_mapel' => $mapel,
                 'nama_mapel_lengkap' => $mapel_lengkap,
                 'kkm' => $kkm,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
             ];
         }, $mapel, $kkm, $id, $mapel_lengkap);
 

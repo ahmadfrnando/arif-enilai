@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->string('username')->nullable();
+        Schema::table('pelaksanaan_semester', function (Blueprint $table) {
+            $table->integer('id_tahun_ajaran')->nullable()->after('semester');
         });
+        
     }
 
     /**
@@ -25,8 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->dropColumn('username');
-        });
+        //
     }
 };

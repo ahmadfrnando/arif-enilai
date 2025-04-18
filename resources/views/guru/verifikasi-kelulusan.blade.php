@@ -1,6 +1,14 @@
 @extends('guru.layouts.master')
 @section('content')
 <div class="p-6 mt-14 space-y-4">
+    @if($semester_aktif === null)
+    <div class="p-6 mt-14 space-y-4">
+        <div class="flex flex-col gap-6 items-center justify-center">
+            <img src="{{ asset('images/no-data.svg') }}" alt="no-data" width="200" class="mx-auto">
+            <h1 class="text-3xl font-semibold text-gray-900">Semester belum diaktifkan</h1>
+        </div>
+    </div>
+    @else
     <h1 class="text-3xl font-bold text-gray-900">Verifikasi Kelulusan Semester {{ $waliKelas->kelas->nama_kelas }}</h1>
     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <label for="cari" class="sr-only">Search</label>
@@ -67,5 +75,6 @@
             {{ $siswaLulusSemester->links() }}
         </div>
     </div>
+    @endif
 </div>
 @endsection

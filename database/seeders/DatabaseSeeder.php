@@ -31,11 +31,11 @@ class DatabaseSeeder extends Seeder
             // GuruSeeder::class,
         ]);
 
-        User::factory()->create([
-            'name' => 'admin',
-            'username' => 'admin',
-            'password' => Hash::make('123'),
-            'role' => 'admin',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'admin',
+        //     'username' => 'admin',
+        //     'password' => Hash::make('123'),
+        //     'role' => 'admin',
+        // ]);
     }
 }

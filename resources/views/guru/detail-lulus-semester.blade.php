@@ -13,7 +13,7 @@
         <div class="bg-white border border-gray-200 rounded-lg shadow">
             <div class="flex flex-col items-center pb-10 pt-10">
                 @if($siswa->pas_foto)
-                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $siswa->pas_foto }}" alt="Bonnie image" />
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ asset('storage/' . $siswa->pas_foto) }}" alt="Bonnie image" />
                 @else
                 <div class="w-40 h-40 rounded-full shadow-lg text-6xl bg-gray-200 rounded flex items-center justify-center text-center">{{ strtoupper(substr($siswa->nama_siswa, 0, 2)) }}</div>
                 @endif
@@ -48,14 +48,6 @@
                                         <input type="number" name="id_kelas" value="{{ $siswa->id_kelas_sekarang }}" hidden readonly>
                                         <input type="number" name="id_guru" value="{{ Auth()->user()->id_guru }}" hidden readonly>
                                         <input type="number" name="id_status" value="2" hidden readonly>
-                                        <div class="py-4">
-                                            <select id="tahun_ajaran" name="tahun_ajaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                                                <option value="" selected>-- Pilih Tahun Ajaran --</option>
-                                                @foreach($pilihTahunAjaran as $p)
-                                                <option value="{{ $p->id }}" selected>{{ $p->tahun_ajaran }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                         <div class="py-4">
                                             <textarea id="pesan" name="pesan" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="berikan pesan anda untuk siswa dan orang tua siswa disini..."></textarea>
                                         </div>
@@ -95,14 +87,6 @@
                                         <input type="number" name="id_kelas" value="{{ $siswa->id_kelas_sekarang }}" hidden readonly>
                                         <input type="number" name="id_guru" value="{{ Auth()->user()->id_guru }}" hidden readonly>
                                         <input type="number" name="id_status" value="3" hidden readonly>
-                                        <div class="py-4">
-                                            <select id="tahun_ajaran" name="tahun_ajaran" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                                                <option value="" selected>-- Pilih Tahun Ajaran --</option>
-                                                @foreach($pilihTahunAjaran as $p)
-                                                <option value="{{ $p->id }}" selected>{{ $p->tahun_ajaran }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                         <div class="py-4">
                                             <textarea id="alasan" name="alasan" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Berikan alasan ketidaklulusan..."></textarea>
                                         </div>

@@ -15,38 +15,38 @@ class Guru extends Model
     protected $guarded =[];
 
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        // Event created: dijalankan setelah data siswa ditambahkan
-        static::created(function ($guru) {
-            User::create([
-                'name' => $guru->nama_guru,
-                'username' => $guru->username,
-                'id_guru' => $guru->id,
-                'role' => 'guru',
-                'password' => Hash::make('123'), // Password default
-            ]);
-        });
+    //     // Event created: dijalankan setelah data siswa ditambahkan
+    //     // static::created(function ($guru) {
+    //     //     User::create([
+    //     //         'name' => $guru->nama_guru,
+    //     //         'username' => $guru->username,
+    //     //         'id_guru' => $guru->id,
+    //     //         'role' => 'guru',
+    //     //         'password' => Hash::make('123'), // Password default
+    //     //     ]);
+    //     // });
 
-        static::updated(function ($guru) {
-            $user = User::where('id_guru', $guru->id)->first();
-            if ($user) {
-                $user->update([
-                    'name' => $guru->nama_guru,
-                    'username' => $guru->username,
-                ]);
-            }
-        });
+    //     // static::updated(function ($guru) {
+    //     //     $user = User::where('id_guru', $guru->id)->first();
+    //     //     if ($user) {
+    //     //         $user->update([
+    //     //             'name' => $guru->nama_guru,
+    //     //             'username' => $guru->username,
+    //     //         ]);
+    //     //     }
+    //     // });
 
-        static::deleted(function ($guru) {
-            $user = User::where('id_guru', $guru->id)->first();
-            if ($user) {
-                $user->delete();
-            }
-        });
-    }
+    //     // static::deleted(function ($guru) {
+    //     //     $user = User::where('id_guru', $guru->id)->first();
+    //     //     if ($user) {
+    //     //         $user->delete();
+    //     //     }
+    //     // });
+    // }
 
     public function mapel()
     {

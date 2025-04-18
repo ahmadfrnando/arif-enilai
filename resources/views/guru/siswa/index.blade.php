@@ -2,6 +2,14 @@
 
 @section('content')
 <div class="p-6 mt-14 space-y-4">
+    @if($semester_aktif === null)
+    <div class="p-6 mt-14 space-y-4">
+        <div class="flex flex-col gap-6 items-center justify-center">
+            <img src="{{ asset('images/no-data.svg') }}" alt="no-data" width="200" class="mx-auto">
+            <h1 class="text-3xl font-semibold text-gray-900">Semester belum diaktifkan</h1>
+        </div>
+    </div>
+    @else
     <h1 class="text-3xl font-bold text-gray-900">Daftar Siswa</h1>
     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <div class="flex gap-4">
@@ -71,13 +79,13 @@
                         {{ $s->kelas->nama_kelas }}
                     </td>
                     <td class="px-6 py-4">
-                            @if($s->status_lulus_mapel == 1)
-                            <span class="bg-gray-100 text-gray-800 whitespace-nowrap text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $s->status->nama_status_lulus }}</span>
-                            @elseif($s->status_lulus_mapel == 2)
-                            <span class="whitespace-nowrap bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded whitespace-nowrap">{{ $s->status->nama_status_lulus }}</span>
-                            @elseif($s->status_lulus_mapel == 3)
-                            <span class="whitespace-nowrap bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
-                            @endif
+                        @if($s->status_lulus_mapel == 1)
+                        <span class="bg-gray-100 text-gray-800 whitespace-nowrap text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{ $s->status->nama_status_lulus }}</span>
+                        @elseif($s->status_lulus_mapel == 2)
+                        <span class="whitespace-nowrap bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded whitespace-nowrap">{{ $s->status->nama_status_lulus }}</span>
+                        @elseif($s->status_lulus_mapel == 3)
+                        <span class="whitespace-nowrap bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
+                        @endif
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('guru.siswa.show', ['id' => $s->id]) }}" class="px-3 py-2 text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">Beri Kelulusan {{ $guru->mapel->nama_mapel }}</a>
@@ -90,5 +98,6 @@
             {{ $nilaiSiswa->links() }}
         </div>
     </div>
+    @endif
 </div>
 @endsection

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('jabatan')->nullable();
             $table->string('jenis_sekolah')->nullable();
             $table->string('jurusan')->nullable();
-            $table->json('tahun_sttb')->nullable();
+            $table->string('tahun_sttb')->nullable();
             $table->string('penataran_yang_pernah_diikutin')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('pas_foto')->nullable();

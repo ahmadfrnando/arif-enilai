@@ -1,6 +1,14 @@
 @extends('guru.layouts.master')
 @section('content')
 <div class="p-6 mt-14 space-y-4">
+    @if($semester_aktif === null)
+    <div class="p-6 mt-14 space-y-4">
+        <div class="flex flex-col gap-6 items-center justify-center">
+            <img src="{{ asset('images/no-data.svg') }}" alt="no-data" width="200" class="mx-auto">
+            <h1 class="text-3xl font-semibold text-gray-900">Semester belum diaktifkan</h1>
+        </div>
+    </div>
+    @else
     <h1 class="text-3xl font-bold text-gray-900">Nilai Keterampilan</h1>
     <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         <div class="flex gap-4">
@@ -83,15 +91,15 @@
                         {{ $s->semester_sekarang ?? '-' }}
                     </td>
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiSiswa->first()->nilai_keterampilan ?? '-' }}
+                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->first()->nilai_keterampilan ?? '-' }}
                     </td>
 
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiSiswa->first()->predikat_keterampilan ?? '-' }}
+                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->first()->predikat_keterampilan ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
-                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}" 
+                        <button id="modal-toggle-{{ $s->id }}" data-modal-target="modal-{{ $s->id }}" data-modal-toggle="modal-{{ $s->id }}"
                             class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" type="button">
                             Beri Nilai
                         </button>
@@ -124,7 +132,7 @@
                                             <input type="text" hidden readonly name="semester_sekarang" value="{{ $s->semester_sekarang }}">
                                             <div>
                                                 <label for="nilai_keterampilan" class="block mb-2 text-sm font-medium text-gray-900">Silahkan masukkan nilai keterampilan</label>
-                                                <input type="number" name="nilai_keterampilan" id="nilai_keterampilan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required/>
+                                                <input type="number" name="nilai_keterampilan" id="nilai_keterampilan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                                             </div>
                                             <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Simpan</button>
                                         </form>
@@ -141,5 +149,6 @@
             {{ $siswa->links() }}
         </div>
     </div>
+    @endif
 </div>
 @endsection

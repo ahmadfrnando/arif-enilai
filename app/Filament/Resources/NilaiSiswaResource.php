@@ -47,7 +47,7 @@ class NilaiSiswaResource extends Resource
                 TextInput::make('nilai_pengetahuan')
                     ->numeric()
                     ->required(),
-                TextInput::make('nilai_keetrampilan')
+                TextInput::make('nilai_keterampilan')
                     ->numeric()
                     ->required(),
             ]);

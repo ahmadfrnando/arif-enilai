@@ -53,7 +53,7 @@ class GuruResource extends Resource
                         Forms\Components\Select::make('agama')
                             ->options([
                                 'Islam' => 'Islam',
-                                'Kristen' => 'Kristen',
+                                'Protestan' => 'Protestan',
                                 'Katolik' => 'Katolik',
                                 'Hindu' => 'Hindu',
                                 'Budha' => 'Budha',
@@ -73,6 +73,7 @@ class GuruResource extends Resource
                             ->maxLength(10),
                         Forms\Components\TextInput::make('tahun_sttb')
                             ->required()
+                            ->numeric()
                             ->maxLength(10),
                         Forms\Components\Select::make('id_mapel')
                             ->label('Mapel')

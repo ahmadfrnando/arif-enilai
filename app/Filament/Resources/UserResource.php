@@ -31,7 +31,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->label('Nama')->required(),
-                Forms\Components\TextInput::make('username')->label('Usernmae')->required(),
+                Forms\Components\TextInput::make('username')->required(),
                 Forms\Components\TextInput::make('password')->label('Password')->password()
                     ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
                     ->required(),

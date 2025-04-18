@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->string('username')->nullable();
+        Schema::create('pelaksanaan_semester', function (Blueprint $table) {
+            $table->id();
+            $table->enum('semester', ['1', '2']);
+            $table->boolean('status_aktif')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->dropColumn('username');
-        });
+        Schema::dropIfExists('pelaksanaan_semesters');
     }
 };
