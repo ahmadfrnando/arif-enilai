@@ -93,8 +93,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('insert_user_from_guru');
-        Schema::dropIfExists('delete_user_from_guru');
-        Schema::dropIfExists('update_guru_from_users');
-        Schema::dropIfExists('update_user_from_guru');
     }
 };
