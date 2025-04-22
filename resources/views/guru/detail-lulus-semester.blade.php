@@ -19,7 +19,7 @@
                 @endif
                 <h5 class="mb-1 text-xl font-medium text-gray-900">{{ $siswa->nama_siswa }}</h5>
                 <span class="text-sm text-gray-500">{{ $siswa->nisn }}</span>
-                @if($siswa->lulus_semester_sekarang == 1)
+                @if($cekLulusSemester == null)
                 <div class="flex mt-4 md:mt-6">
                     <button type="button" data-modal-target="popup-modal-1" data-modal-toggle="popup-modal-1" class="flex flex-row items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 @else
-                <div class="m-4 flex items-center p-4 {{ $cekLulusSemester->lulus_semester_sekarang == 2 ? 'text-green-800 bg-green-50' : 'text-red-800 bg-red-50' }}  text-sm  rounded-lg" role="alert">
+                <div class="m-4 flex items-center p-4 {{ $cekLulusSemester->id_status= 2 ? 'text-green-800 bg-green-50' : 'text-red-800 bg-red-50' }}  text-sm  rounded-lg" role="alert">
                     <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                     </svg>

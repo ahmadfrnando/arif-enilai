@@ -132,34 +132,26 @@ class SiswaController extends Controller
 
     public function report()
     {
-        $kelas1 = RefKelas::whereIn('id', [1, 2, 3, 4])->get();
-        $kelas2 = RefKelas::whereIn('id', [5, 6, 7, 8])->get();
-        $kelas3 = RefKelas::whereIn('id', [9, 10, 11, 12])->get();
-
-        $reportSiswa = ReportAkademikSiswa::with('kelas') // Pastikan relasi kelas sudah terdefinisi
-            ->where('id_siswa', Auth::user()->id_siswa)
-            ->first();
-
-        $siswa = Siswa::where('id', Auth::user()->id_siswa)->first();
-
-        $kelas1Report = $reportSiswa
-            ? $reportSiswa->kelas()->whereIn('id', $kelas1->pluck('id'))->get()
-            : collect([]);
-
-        $kelas2Report = $reportSiswa
-            ? $reportSiswa->kelas()->whereIn('id', $kelas2->pluck('id'))->get()
-            : collect([]);
-
-        $kelas3Report = $reportSiswa
-            ? $reportSiswa->kelas()->whereIn('id', $kelas3->pluck('id'))->get()
-            : collect([]);
-
+        // $kelas1 = RefKelas::whereIn('id', [1, 2, 3, 4])->get();
+        // $kelas2 = RefKelas::whereIn('id', [5, 6, 7, 8])->get();
+        // $kelas3 = RefKelas::whereIn('id', [9, 10, 11, 12])->get();
+        $kelas1 = [1, 2, 3, 4];
+        $kelas2 = [5, 6, 7, 8];
+        $kelas3 = [9, 10, 11, 12];
+        $kelas1Semester1 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas1)->where('nama_semester', '1')->first();
+        $kelas1Semester2 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas1)->where('nama_semester', '2')->first();
+        $kelas2Semester1 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas2)->where('nama_semester', '1')->first();
+        $kelas2Semester2 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas2)->where('nama_semester', '2')->first();
+        $kelas3Semester1 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas3)->where('nama_semester', '1')->first();
+        $kelas3Semester2 = ReportAkademikSiswa::where('id_siswa', Auth::user()->id_siswa)->whereIn('id_kelas', $kelas3)->where('nama_semester', '2')->first();
+        
         $data = [
-            'kelas1' => $kelas1Report,
-            'kelas2' => $kelas2Report,
-            'kelas3' => $kelas3Report,
-            'siswa' => $siswa,
-            'reportSiswa' => $reportSiswa,
+            'kelas1Semester1' => $kelas1Semester1,
+            'kelas1Semester2' => $kelas1Semester2,
+            'kelas2Semester1' => $kelas2Semester1,
+            'kelas2Semester2' => $kelas2Semester2,
+            'kelas3Semester1' => $kelas3Semester1,
+            'kelas3Semester2' => $kelas3Semester2,
         ];
 
         // dd($reportSiswa->nama_siswa);
@@ -167,15 +159,25 @@ class SiswaController extends Controller
         return view('siswa.report.index', compact('data'));
     }
 
-    public function download()
-    {   
-        $id = Auth::user()->id_siswa;
-        $student = ReportAkademikSiswa::where('id_siswa', $id)->firstOrFail();
-        $grades = is_array($student->nilai) ? $student->nilai : json_decode($student->nilai, true);
 
-        return Excel::download(new ReportAkademikExport($student, $grades), 'LaporanNilaiSiswa.xlsx');
+    // public function download()
+    // {
+    //     $id = Auth::user()->id_siswa;
+    //     $student = ReportAkademikSiswa::where('id_siswa', $id)->firstOrFail();
+    //     $grades = is_array($student->nilai) ? $student->nilai : json_decode($student->nilai, true);
+
+    //     return Excel::download(new ReportAkademikExport($student, $grades), 'LaporanNilaiSiswa.xlsx');
+    // }
+
+    public function download($id)
+    {
+        $id_siswa = Auth::user()->id_siswa;
+        // $student = ReportAkademikSiswa::where('id_siswa', $id)->firstOrFail();
+        $data = ReportAkademikSiswa::findOrFail($id);
+        $grades = is_array($data->nilai) ? $data->nilai : json_decode($data->nilai, true);
+
+        return view('siswa.report.download', compact('data', 'grades'));
     }
-
     /**
      * Show the form for creating a new resource.
      *

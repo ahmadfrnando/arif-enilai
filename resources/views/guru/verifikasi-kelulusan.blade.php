@@ -51,12 +51,14 @@
                         {{ $s->nama_siswa ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
-                        @if($s->lulus_semester_sekarang == 1)
-                        <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
-                        @elseif($s->lulus_semester_sekarang == 2)
-                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
-                        @elseif($s->lulus_semester_sekarang == 3)
-                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->status->nama_status_lulus }}</span>
+                        @if($s->id_status == null)
+                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Belum Diberikan Kelulusan</span>
+                        @elseif($s->id_status  == 1)
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->siswaLulusSemester->nama_status}}</span>
+                        @elseif($s->id_status == 2)
+                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->siswaLulusSemester->nama_status}}</span>
+                        @elseif($s->id_status == 3)
+                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ $s->siswaLulusSemester->nama_status}}</span>
                         @endif
                     </td>
                     <td class="px-6 py-4">

@@ -91,11 +91,11 @@
                         {{ $s->semester_sekarang ?? '-' }}
                     </td>
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->first()->nilai_keterampilan ?? '-' }}
+                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->where('id_kelas', $s->id_kelas_sekarang)->first()->nilai_keterampilan ?? '-' }}
                     </td>
 
                     <td class="px-6 py-4 font-extrabold">
-                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->first()->predikat_keterampilan ?? '-' }}
+                        {{ $s->nilaiSiswa->where('semester_id', $semester_aktif->semester)->where('id_kelas', $s->id_kelas_sekarang)->first()->predikat_keterampilan ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
                         <!-- Modal toggle -->
