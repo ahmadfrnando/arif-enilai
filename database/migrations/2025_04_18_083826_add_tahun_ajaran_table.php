@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pelaksanaan_semester', function (Blueprint $table) {
-            $table->integer('id_tahun_ajaran')->nullable()->after('semester');
+            $table->string('tahun_ajaran')->nullable()->after('semester');
         });
         
     }

@@ -70,11 +70,13 @@
             <td>{{$r['keterampilan']['nilai']}}</td>
             <td>{{$r['keterampilan']['predikat']}}</td>
         </tr>
-            @endforeach
-            @endforeach
-            @endif
+        @endforeach
+        @endforeach
+        @endif
     </table>
-
+    <script>
+        window.print();
+    </script>
 </body>
 
 </html>
