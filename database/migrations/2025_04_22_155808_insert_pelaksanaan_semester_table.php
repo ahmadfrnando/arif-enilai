@@ -16,7 +16,8 @@ return new class extends Migration
     {
         DB::table('pelaksanaan_semester')->insert([
             'id' => 1,
-            'semester' => '2025/2026',
+            'semester' => '1',
+            'tahun_ajaran' => '2025/2026',
             'status_aktif' => '0',
             'created_at' => now(),
             'updated_at' => now(),
