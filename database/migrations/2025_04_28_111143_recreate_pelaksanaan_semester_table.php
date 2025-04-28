@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('pelaksanaan_semester', function (Blueprint $table) {
             $table->id();
             $table->enum('semester', ['1', '2']);
+            $table->string('tahun_ajaran')->nullable();
             $table->boolean('status_aktif')->default(0);
             $table->timestamps();
         });
