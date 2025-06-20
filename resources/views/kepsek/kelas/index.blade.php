@@ -28,7 +28,7 @@
                         {{ $k->nama_kelas ?? '-' }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $k->jumlah_siswa ?? '-' }}
+                        {{ $k->jumlahSiswa() ?? 0 }}
                     </td>
                 </tr>
                 @endforeach
