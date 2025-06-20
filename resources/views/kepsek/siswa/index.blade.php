@@ -100,7 +100,7 @@
                                                     Nama Siswa: {{ $s->nama_siswa }}
                                                 </li>
                                                 <li>
-                                                    NISN: {{ $s->nisN }}
+                                                    NISN: {{ $s->nisn }}
                                                 </li>
                                                 <li>
                                                     Kelas: {{ $s->kelas->nama_kelas }} ({{ $s->semester_sekarang }})
