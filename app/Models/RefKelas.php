@@ -11,5 +11,13 @@ class RefKelas extends Model
 
     protected $table = 'ref_kelas';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'nama_kelas',
+        'jumlah_siswa',
+    ];
+
+    public function jumlahSiswa()
+    {
+        return Siswa::where('id_kelas_sekarang', $this->id)->count();
+    }
 }
