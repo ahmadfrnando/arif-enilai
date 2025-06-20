@@ -46,7 +46,7 @@ class SiswaLulusSemesterResource extends Resource
                     ->enum([
                         '1' => 'Belum diverifikasi',
                         '2' => 'Lulus',
-                        '3' => 'Tidak Lulus',
+                        '3' => 'Remedial',
                     ])
                     ->colors([
                         'primary' => '1',
