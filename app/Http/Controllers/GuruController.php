@@ -136,7 +136,7 @@ class GuruController extends Controller
             ]);
 
             if ($request->filled('alasan')) {
-                $nama_status = 'Tidak Lulus';
+                $nama_status = 'Remedial';
                 $request->validate(['alasan' => 'required']);
                 $alasan = $request->alasan;
             }
