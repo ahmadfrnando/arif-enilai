@@ -35,7 +35,7 @@
 </head>
 
 <body>
-
+    <img src="{{ asset('logo_kartika.png') }}" alt="Logo Sekolah">
     <h2 class="title">Laporan Nilai Siswa</h2>
     <table>
         <tr>
