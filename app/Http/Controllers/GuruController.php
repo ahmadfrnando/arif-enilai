@@ -138,7 +138,7 @@ class GuruController extends Controller
             if ($request->filled('alasan')) {
                 $nama_status = 'Remedial';
                 $request->validate(['alasan' => 'required']);
-                $alasan = $request->alasan;
+                $pesan = $request->alasan;
             }
 
             if ($request->filled('pesan')) {
