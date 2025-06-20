@@ -90,12 +90,6 @@
                                                     Nama Guru: {{ $g->nama_guru }}
                                                 </li>
                                                 <li>
-                                                    NIP: {{ $g->nip }}
-                                                </li>
-                                                <li>
-                                                    Email: {{ $g->email }}
-                                                </li>
-                                                <li>
                                                     Tahun STTB: {{ $g->tahun_sttb }}
                                                 </li>
                                                 <li>
